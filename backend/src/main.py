@@ -1,16 +1,16 @@
-from src.app.auth.database import User
-from src.app.auth.auth import auth_backend
-
-from src.app.auth.manager import get_user_manager
-
-from src.app.auth.schemas import UserCreate
-from src.app.auth.schemas import UserRead
-
 from fastapi import FastAPI
 from fastapi import Depends
 import uvicorn
 import configparser
-from fastapi_users import FastAPIUsers
+
+from auth.base_config import fastapi_users
+from auth.base_config import auth_backend
+
+from auth.schemas import UserCreate
+from auth.schemas import UserRead
+
+from auth.models import User
+
 
 app = FastAPI(
     title="КИП",
@@ -18,11 +18,7 @@ app = FastAPI(
     version="0.0.1"
 )
 
-fastapi_users = FastAPIUsers[User, int](
-    get_user_manager,
-    [auth_backend],
 
-)
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
@@ -50,7 +46,7 @@ def unprotected_request():
 
 def main():
     config = configparser.ConfigParser()
-    config.read('./src/config/config.ini')
+    config.read('./config/config.ini')
 
     is_dev = config.getboolean('dev', 'is_dev')
     port = config.getint('app', 'port')
