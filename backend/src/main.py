@@ -10,7 +10,7 @@ from auth.schemas import UserCreate
 from auth.schemas import UserRead
 
 from auth.models import User
-
+from operations.router import router as router_operation
 
 app = FastAPI(
     title="КИП",
@@ -31,17 +31,9 @@ app.include_router(
     tags=["auth"],
 )
 
+app.include_router(router_operation)
+
 current_user = fastapi_users.current_user()
-
-
-@app.get('/protected-request')
-def protected_request(user: User = Depends(current_user)):
-    return f"Hello, dear {user.username}"
-
-
-@app.get('/unprotected-request')
-def unprotected_request():
-    return "Hello, random fella"
 
 
 def main():
