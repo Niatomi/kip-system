@@ -1,4 +1,4 @@
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
@@ -15,9 +15,7 @@ from fastapi_users.db import SQLAlchemyBaseUserTable
 from datetime import datetime
 
 
-class Base(DeclarativeBase):
-    pass
-
+Base = declarative_base()
 
 class Role(Base):
     __tablename__ = 'role_table'
