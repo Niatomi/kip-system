@@ -43,4 +43,6 @@ systemctl start kip-system.service
 
 ## Даталогическая схема
 
-[![Даталогическая модель](./git-imgs/datalogical-model.png)](https://drawsql.app/teams/nia/diagrams/kursovaya/embed)
+P.S. На картинку можно тыкнуть
+
+[![Даталогическая модель](./git-images/datalogical-model.png)](https://drawsql.app/teams/nia/diagrams/kursovaya/embed)
