@@ -131,3 +131,6 @@ dmypy.json
 lib64
 bin
 include
+
+src/db/migrations/*
+!src/db/migrations/.gitkeep
