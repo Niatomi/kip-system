@@ -1,0 +1,15 @@
+[Unit]
+Description=kip system
+
+[Service]
+Type=simple
+User=niatomi
+Group=
+RemainAfterExit=yes
+Environment="base_path=$base_path"
+ExecStart=$base_path/shell-scripts/daemon-scripts/run-daemon.sh
+ExecStop=$base_path/shell-scripts/daemon-scripts/stop-daemon.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
