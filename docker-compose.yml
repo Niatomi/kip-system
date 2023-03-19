@@ -30,6 +30,12 @@ services:
       - postgres
     restart: unless-stopped
 
+  redis:
+    container_name: redismod
+    image: redislabs/redismod:latest
+    ports:
+      - '6379:6379'
+
 volumes:
   postgres:
   pgadmin:
