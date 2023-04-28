@@ -1,6 +1,5 @@
 from fastapi import Depends
-from fastapi import status
-from src.auth.exceptions import InvalidCredentialsException, UserNeedToReactivateAccountException
+from src.auth.exceptions import InvalidCredentialsException
 
 from fastapi.security import OAuth2PasswordBearer
 
@@ -9,22 +8,19 @@ from . import schemas
 from jose import JWTError
 from jose import jwt
 
+from uuid import UUID
 from datetime import (
     datetime,
     timedelta
 )
-from src.repository.user import UserRepository
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.database import get_async_session
 
-from uuid import UUID
 from src.config import auth_config
-
+from src.repository.user import UserRepository
 from src.user.models import User
 
-from datetime import datetime
 
 SECRET = auth_config.jwt_secret
 ALGORITHM = auth_config.jwt_alg
@@ -48,19 +44,18 @@ def verify_access_token(token: str, credentials_exception):
             raise credentials_exception
         token_data = schemas.UserToken()
         token_data.access_token = id
-    except JWTError as e:
+    except JWTError:
         raise credentials_exception
     return token_data
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_async_session)) -> User:
+async def get_current_user(token: str = Depends(oauth2_scheme),
+                           session: AsyncSession = Depends(get_async_session)) -> User:
     credentials_exception = InvalidCredentialsException
     try:
         access_token = verify_access_token(token, credentials_exception)
-        user = await UserRepository.get_by_id(session=session, user_id=UUID(access_token.access_token))
-        if user.deleted_at is not None:
-            raise UserNeedToReactivateAccountException
+        user = await UserRepository.get_by_id(session=session,
+                                              user_id=UUID(access_token.access_token))
     except InvalidCredentialsException:
         raise credentials_exception
-
     return user

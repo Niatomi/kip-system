@@ -43,11 +43,6 @@ class UserAlredyExistsResponse(BaseModel):
     message: str = "USER_ALREADY_EXISTS"
 
 
-class UserNeedToReactivateAccountResponse(BaseModel):
-    status_code: int = status.HTTP_400_BAD_REQUEST
-    message: str = "USER_NEED_TO_REACTIVATE_ACCOUNT"
-    
-
 class MethodNotAllowedResponse(BaseModel):
     status_code: int = status.HTTP_405_METHOD_NOT_ALLOWED
     message: str = "METHOD_IS_NOT_ALLOWED_FOR_CURRENT_USER"

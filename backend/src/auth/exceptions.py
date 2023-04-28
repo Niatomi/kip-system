@@ -1,10 +1,8 @@
 from .schemas import (
     InvalidCredentialsResponse,
     UserAlredyExistsResponse,
-    UserNeedToReactivateAccountResponse,
     MethodNotAllowedResponse
 )
-from fastapi import status
 from fastapi.responses import JSONResponse
 from fastapi import Request
 
@@ -14,10 +12,6 @@ class InvalidCredentialsException(Exception):
 
 
 class UserAlreadyExistsException(Exception):
-    pass
-
-
-class UserNeedToReactivateAccountException(Exception):
     pass
 
 
@@ -32,11 +26,6 @@ def invalid_credentials_exception_handler(request: Request, exc: InvalidCredenti
 
 def user_already_exists_exception_handler(request: Request, exc: UserAlreadyExistsException):
     content = UserAlredyExistsResponse()
-    return JSONResponse(status_code=content.status_code, content=content.dict())
-
-
-def user_need_to_reactivate_account_exception_handler(request: Request, exc: UserNeedToReactivateAccountException):
-    content = UserNeedToReactivateAccountResponse()
     return JSONResponse(status_code=content.status_code, content=content.dict())
 
 
