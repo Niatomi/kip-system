@@ -2,7 +2,7 @@ import multiprocessing
 import os
 
 host = os.getenv("HOST", "0.0.0.0")
-port = os.getenv("PORT", "9000")
+port = os.getenv("PORT", "8000")
 bind_env = os.getenv("BIND", None)
 
 use_bind = bind_env if bind_env else f"{host}:{port}"
