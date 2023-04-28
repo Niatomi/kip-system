@@ -1,0 +1,61 @@
+version: '3.1'
+services:
+
+  app:
+    container_name: app
+    image: app_image
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres-for-kip
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5439:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin-for-kip
+    image: dpage/pgadmin4:7.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5059:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  pgadmin:
+  data: {}
+
+networks:
+  postgres:
+    driver: bridge
+  default:
+    external: true
+    name: app_main
+    

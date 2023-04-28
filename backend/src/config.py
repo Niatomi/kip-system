@@ -1,12 +1,51 @@
-from dotenv import load_dotenv
-import os
+from pydantic import BaseSettings
+from typing import List
 
-load_dotenv()
 
-DB_HOST = os.environ.get('DB_HOST')
-DB_PORT = os.environ.get('DB_PORT')
-DB_PASS = os.environ.get('DB_PASS')
-DB_USER = os.environ.get('DB_USER')
-DB_NAME = os.environ.get('DB_NAME')
+class SettingsBase(BaseSettings):
 
-SECRET = os.environ.get('SECRET')
+    class Config:
+        env_file = ".env"
+        env_file_encoding = 'utf-8'
+
+
+class DbConfig(SettingsBase):
+    db_user: str
+    db_pass: str
+    db_host: str
+    db_port: str
+    db_name: str
+    ddl_show: bool = False
+
+
+class EnvConfig(SettingsBase):
+    env_name: str
+
+
+class MiddleWareConfig(SettingsBase):
+    cors_hosts: List[str]
+
+
+class AuthConfig(SettingsBase):
+    jwt_secret: str
+    jwt_alg: str
+    jwt_exp: int = 60
+
+
+class ApiConfig(SettingsBase):
+    api_version_path: str
+    api_version: str
+    is_dev: bool = False
+
+
+class NetworkConfig(SettingsBase):
+    port: int = 8000
+    host: str = '0.0.0.0'
+
+
+network_config = NetworkConfig()
+db_config = DbConfig()
+api_config = ApiConfig()
+auth_config = AuthConfig()
+middleware_config = MiddleWareConfig()
+env_config = EnvConfig()

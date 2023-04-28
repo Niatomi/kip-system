@@ -1,0 +1,66 @@
+from fastapi import Depends
+from fastapi import status
+from src.auth.exceptions import InvalidCredentialsException, UserNeedToReactivateAccountException
+
+from fastapi.security import OAuth2PasswordBearer
+
+from . import schemas
+
+from jose import JWTError
+from jose import jwt
+
+from datetime import (
+    datetime,
+    timedelta
+)
+from src.repository.user import UserRepository
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.database import get_async_session
+
+from uuid import UUID
+from src.config import auth_config
+
+from src.user.models import User
+
+from datetime import datetime
+
+SECRET = auth_config.jwt_secret
+ALGORITHM = auth_config.jwt_alg
+ACCESS_TOKEN_EXPIRE_MINUTES = auth_config.jwt_exp
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='v1/auth/sign_in')
+
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+def verify_access_token(token: str, credentials_exception):
+    try:
+        payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
+        id: str = payload.get('user_id')
+        if id is None:
+            raise credentials_exception
+        token_data = schemas.UserToken()
+        token_data.access_token = id
+    except JWTError as e:
+        raise credentials_exception
+    return token_data
+
+
+async def get_current_user(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_async_session)) -> User:
+    credentials_exception = InvalidCredentialsException
+    try:
+        access_token = verify_access_token(token, credentials_exception)
+        user = await UserRepository.get_by_id(session=session, user_id=UUID(access_token.access_token))
+        if user.deleted_at is not None:
+            raise UserNeedToReactivateAccountException
+    except InvalidCredentialsException:
+        raise credentials_exception
+
+    return user

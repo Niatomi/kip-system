@@ -1,50 +1,40 @@
 from fastapi import FastAPI
-from fastapi import Depends
 import uvicorn
-import configparser
+from fastapi.middleware.cors import CORSMiddleware
 
-from auth.base_config import fastapi_users
-from auth.base_config import auth_backend
+from .config import network_config
 
-from auth.schemas import UserCreate
-from auth.schemas import UserRead
+from .config import middleware_config
+from .config import api_config
 
-from auth.models import User
-from operations.router import router as router_operation
+from src.auth.router import router as auth_router
 
 app = FastAPI(
     title="КИП",
-    description="Приложение для учёта КИП процессов",
-    version="0.0.1"
+    description="API для приложения учёта КИП процессов в геофизике",
+    version=api_config.api_version
 )
 
 
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
+app.include_router(router=auth_router,
+                   prefix=api_config.api_version_path)
+
+
+origins = [middleware_config.cors_hosts]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["POST", "GET", "DELETE", 'PATCH'],
+    allow_headers=["*"],
 )
-
-app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
-    tags=["auth"],
-)
-
-app.include_router(router_operation)
-
-current_user = fastapi_users.current_user()
 
 
 def main():
-    config = configparser.ConfigParser()
-    config.read('./config/config.ini')
-
-    is_dev = config.getboolean('dev', 'is_dev')
-    port = config.getint('app', 'port')
-    host = config.get('app', 'host')
-
-    uvicorn.run("main:app", reload=is_dev, port=port, host=host)
+    uvicorn.run("main:app",
+                reload=api_config.is_dev,
+                port=network_config.port,
+                host=network_config.host)
 
 
 if __name__ == "__main__":
