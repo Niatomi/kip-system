@@ -8,7 +8,6 @@ from .schemas import (
 
     DatebirthExceptionReponse
 )
-from fastapi import status
 from fastapi.responses import JSONResponse
 from fastapi import Request
 

@@ -9,7 +9,8 @@ from src.user.schemas import (
 from fastapi import Depends
 
 
-async def form_available_resotre_methods(login: str, session: AsyncSession = Depends(get_async_session)):
+async def form_available_resotre_methods(login: str,
+                                         session: AsyncSession = Depends(get_async_session)):
     user = await UserRepository.get_by_login(session=session, login=login)
     methods = []
     if (user.email is not None) & user.is_email_confirmed:

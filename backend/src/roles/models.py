@@ -5,19 +5,10 @@ from sqlalchemy import (
     JSON,
 )
 
-from typing import List
-
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 
 from src.database import Base
-
-from src.user.models import (
-    User,
-    Genders,
-    ProfilePhotos,
-    Questions,
-)
 
 
 class Role(Base):

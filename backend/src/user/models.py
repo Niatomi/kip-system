@@ -7,31 +7,21 @@ from sqlalchemy import (
     Boolean,
     String,
     JSON,
-    Enum,
     CHAR,
     ForeignKey,
-    text
+    func
 )
 
-from sqlalchemy import func
-
-from sqlalchemy.dialects.postgresql import ENUM
-
 from sqlalchemy.dialects.postgresql import UUID
-
-from uuid import uuid4 as uuid
-
-from datetime import datetime
-
 from sqlalchemy.orm import Mapped
 
-from src.database import Base
 
 import enum
-
+from uuid import uuid4 as uuid
+from datetime import datetime
 from datetime import date
 
-from src.settings.models import Settings
+from src.database import Base
 
 
 class Genders(str, enum.Enum):

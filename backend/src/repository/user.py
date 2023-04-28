@@ -5,27 +5,21 @@ from uuid import UUID
 from src.user.exceptions import UserNotFoundException
 
 from sqlalchemy import select
-from sqlalchemy import delete
 from sqlalchemy import update
 from sqlalchemy import func
-from sqlalchemy.dialects.postgresql import ENUM
 
-from src.user.models import User
 from src.auth.exceptions import UserAlreadyExistsException
 
 from src.auth.utils import hash
 
 from src.user.models import User
 from src.user.schemas import UserUpdate
-from src.user.schemas import UserSecuirityUpdate
 from src.user.exceptions import (EmailAlreadyInUseException,
                                  TelegramAlreadyInUseException,
                                  PhoneNumberAlreadyInUseException,
-                                 SecuirityUpdateException
                                  )
 
 from datetime import datetime
-from fastapi import Depends
 from src.roles.utils import get_default_client_role_id_setter
 
 
@@ -69,10 +63,11 @@ class UserRepository():
 
     @staticmethod
     async def get_by_login(session: AsyncSession, login: str) -> User:
-        query = select(User).filter(
-            (User.username == login) |
-            (User.phone_number == login) |
-            (User.email == login))
+        query = (select(User)
+                 .filter(
+                     (User.username == login) |
+                     (User.phone_number == login) |
+            (User.email == login)))
         result = await session.execute(query)
         user = result.scalars().first()
 
@@ -94,7 +89,10 @@ class UserRepository():
         return await UserRepository.get_by_id(session=session, user_id=id)
 
     @staticmethod
-    async def __form_update_user_security(session: AsyncSession, updated_user: dict, param: str, value: str):
+    async def __form_update_user_security(session: AsyncSession,
+                                          updated_user: dict,
+                                          param: str,
+                                          value: str):
         query = select(func.count(User.id)).filter(
             getattr(User, param).like("%%%s%%" % value)
         )
@@ -114,7 +112,8 @@ class UserRepository():
         return updated_user
 
     @staticmethod
-    async def secuirity_update(session: AsyncSession, id: UUID, secuirity_update_dict: dict) -> User:
+    async def secuirity_update(session: AsyncSession,
+                               id: UUID, secuirity_update_dict: dict) -> User:
         user = await UserRepository.get_by_id(session=session, user_id=id)
         if user is None:
             raise UserNotFoundException
@@ -122,10 +121,11 @@ class UserRepository():
         updated_user = secuirity_update_dict.copy()
         updated_user.pop('password')
         for k, v in updated_user.copy().items():
-            updated_user = await UserRepository.__form_update_user_security(session=session,
-                                                                            updated_user=updated_user,
-                                                                            param=k,
-                                                                            value=v)
+            updated_user = (await UserRepository.
+                            __form_update_user_security(session=session,
+                                                        updated_user=updated_user,
+                                                        param=k,
+                                                        value=v))
 
         if secuirity_update_dict.get('password') is not None:
             updated_user['password'] = hash(

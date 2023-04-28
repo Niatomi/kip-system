@@ -33,7 +33,9 @@ class RolesRepository():
             await session.commit()
 
     @staticmethod
-    async def update_by_name(session: AsyncSession, role_name: str, role_update: schemas.RoleUpdate):
+    async def update_by_name(session: AsyncSession,
+                             role_name: str,
+                             role_update: schemas.RoleUpdate):
         role_name = role_name.upper()
         role = await RolesRepository.get_by_name(session=session, name=role_name)
         if role is None:

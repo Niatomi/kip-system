@@ -10,6 +10,3 @@ def hash(password: str):
 
 def verify(plain_password: str, password: str):
     return pwd_context.verify(plain_password, password)
-
-
-
