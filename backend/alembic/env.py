@@ -4,12 +4,8 @@ import os
 from sqlalchemy import pool
 from sqlalchemy import engine_from_config
 from logging.config import fileConfig
-sys.path.append(os.path.join(sys.path[0], 'src'))
-from src.config import DB_HOST, DB_PORT, DB_PASS, DB_USER, DB_NAME
 
-from src.auth.models import Base as auth_base
-from src.operations.models import Base as operations_base
-
+from src.config import db_config
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -19,16 +15,16 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 section = config.config_ini_section
-config.set_section_option(section, 'DB_USER', DB_USER)
-config.set_section_option(section, 'DB_PASS', DB_PASS)
-config.set_section_option(section, 'DB_HOST', DB_HOST)
-config.set_section_option(section, 'DB_PORT', DB_PORT)
-config.set_section_option(section, 'DB_NAME', DB_NAME)
+config.set_section_option(section, 'DB_USER', db_config.db_user)
+config.set_section_option(section, 'DB_PASS', db_config.db_pass)
+config.set_section_option(section, 'DB_HOST', db_config.db_host)
+config.set_section_option(section, 'DB_PORT', db_config.db_port)
+config.set_section_option(section, 'DB_NAME', db_config.db_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [auth_base.metadata, operations_base.metadata]
+target_metadata = []
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
