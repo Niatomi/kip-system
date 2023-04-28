@@ -2,10 +2,10 @@ from fastapi import FastAPI
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import network_config
+from src.config import network_config
 
-from .config import middleware_config
-from .config import api_config
+from src.config import middleware_config
+from src.config import api_config
 
 from src.auth.router import router as auth_router
 
