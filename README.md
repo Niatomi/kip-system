@@ -2,57 +2,25 @@
 
 КИП система для курсового проекта СамГТУ
 
-## Устновка приложения
+## Запуск приложения без конфигурирования
 
 ```bash
-cd shell-scripts
-sudo chmod u+x install.sh
-./install.sh
+cd backend
+cp .env.docker .env
+cd ..
+docker-compose up -d --build
 ```
-
-Установщик настроит python окружение, а также создаст daemon (Ubuntu 22.04).
-
-Windows, Mac OS - настраивайте всё своими ручками :)
 
 ## Преднастройка окружения
 
-В корне проекта `backend` нужно создать `.env` файл
-
-Структура `.env`:
-
 ```bash
-DB_HOST=localhost
-DB_PORT=5430
-DB_PASS=postgres
-DB_USER=postgres
-DB_NAME=postgres
-SECRET=SECRET_KEY
+cd backend 
+cp .env.example .env
+nano .env
 ```
 
-По названию DB - настройки для подключения к базе данных Postgres, эти же параметры можно взять из `docker-compose.yml` файла или настроить их по своему желанию.
+## Документация
 
-Secret отвечает за настройку ключа JWT.
+[Даталогическая модель](https://raw.githubusercontent.com/Niatomi/kip-system/main/docs/db/db_diagram.xml)
 
-Также в `src/config` имеется `config.ini` файл, которым выполняется настройка для запуска самого backend приложения
-
-После установки параметров для базы данных - нужно прогнать alembic миграции:
-
-```bash
-alembic upgrade head
-```
-
-## Маппинги redis
-
-`db=0` - кеширование данных
-
-## Запуск приложения
-
-```bash
-systemctl start kip-system.service
-```
-
-## Даталогическая схема
-
-P.S. На картинку можно тыкнуть
-
-[![Даталогическая модель](./git-images/datalogical-model.png)](https://drawsql.app/teams/nia/diagrams/kursovaya/embed)
+[Figma](https://www.figma.com/file/OFHGG9Xd23Ej4REh5Wds12/kip-system?type=design&node-id=10%3A107&t=sh6PDZga7Dl0R0HI-1)
