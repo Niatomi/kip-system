@@ -21,6 +21,6 @@ nano .env
 
 ## Документация
 
-[Даталогическая модель](https://raw.githubusercontent.com/Niatomi/kip-system/main/docs/db/db_diagram.xml)
+[Даталогическая модель](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FNiatomi%2Fkip-system%2Fmain%2Fdocs%2Fdb%2Fdb_diagram.xml)
 
 [Figma](https://www.figma.com/file/OFHGG9Xd23Ej4REh5Wds12/kip-system?type=design&node-id=10%3A107&t=sh6PDZga7Dl0R0HI-1)
