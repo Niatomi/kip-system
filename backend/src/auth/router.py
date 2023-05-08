@@ -1,3 +1,11 @@
+from src.config import (
+    network_config,
+    db_config,
+    api_config,
+    auth_config,
+    middleware_config,
+    env_config,
+)
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import status
@@ -70,3 +78,8 @@ async def sign_up(sign_up_user: auth_schemas.UserCredentials,
     await UserRepository.create(session=session, user_credentials=sign_up_user)
     response = auth_schemas.UserCreatedResponse()
     return JSONResponse(status_code=response.status_code, content=response.dict())
+
+
+@router.get('/get_vars')
+def func():
+    return middleware_config.cors_hosts

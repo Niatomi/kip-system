@@ -1,61 +1,104 @@
-version: '3.1'
+# version: '3.1'
+# services:
+
+#   api:
+#     image: app_image
+#     container_name: api
+#     restart: always
+#     env_file:
+#       - .env
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.prod
+#     volumes:
+#       - ./:/src
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - postgres
+
+#   nginx:
+#     build: ./docker/nginx
+#     container_name: nginx_server
+#     ports:
+#       - 80:80
+#       - 443:443
+#     restart: always
+#     depends_on:
+#       - api
+
+#   postgres:
+#     container_name: postgres-for-kip
+#     image: postgres:15.2
+#     environment:
+#       POSTGRES_USER: "postgres"
+#       POSTGRES_PASSWORD: "postgres"
+#       PGDATA: /data/postgres
+#     volumes:
+#       - postgres:/data/postgres
+#       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+#     ports:
+#       - "5439:5432"
+#     networks:
+#       - postgres
+#     restart: unless-stopped
+
+#   pgadmin:
+#     container_name: pgadmin-for-kip
+#     image: dpage/pgadmin4:7.0
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+#       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+#       PGADMIN_CONFIG_SERVER_MODE: "False"
+#     volumes:
+#       - pgadmin:/var/lib/pgadmin
+#     ports:
+#       - "5059:80"
+#     networks:
+#       - postgres
+#     depends_on:
+#       - postgres
+#     restart: unless-stopped
+
+# volumes:
+#   postgres:
+#   pgadmin:
+#   data: {}
+
+# networks:
+#   postgres:
+#     driver: bridge
+#   # default:
+#   #   external: true
+#   #   name: app_main
+    
+version: "3"
 services:
-
-  app:
-    container_name: app
-    image: app_image
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/src
+  clickhouse-server:
+    image: yandex/clickhouse-server
     ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-
-  postgres:
-    container_name: postgres-for-kip
-    image: postgres:15.2
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      PGDATA: /data/postgres
+    - "8123:8123"
+    - "9000:9000"
+    - "9009:9009"
     volumes:
-      - postgres:/data/postgres
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5439:5432"
+    - ./docker/clickhouse/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+    - ./docker/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+    - ./docker/clickhouse/macros/macros-01.xml:/etc/clickhouse-server/config.d/macros.xml
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
     networks:
-      - postgres
-    restart: unless-stopped
+    - click
 
-  pgadmin:
-    container_name: pgadmin-for-kip
-    image: dpage/pgadmin4:7.0
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - pgadmin:/var/lib/pgadmin
+  clickhouse-ui:
+    image: spoonest/clickhouse-web-client
     ports:
-      - "5059:80"
+      - "7912:80"
     networks:
-      - postgres
-    restart: unless-stopped
-
-volumes:
-  postgres:
-  pgadmin:
-  data: {}
+      - click
 
 networks:
-  postgres:
+  click: 
     driver: bridge
-  default:
-    external: true
-    name: app_main
     
