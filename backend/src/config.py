@@ -1,3 +1,5 @@
+from typing import Optional
+from pydantic import validator
 from pydantic import BaseSettings
 from typing import List
 
@@ -43,8 +45,26 @@ class NetworkConfig(SettingsBase):
     host: str = '0.0.0.0'
 
 
+class MongoDbConfig(SettingsBase):
+    mongo_username: str
+    mongo_password: str
+    database_name: str = 'kip_system_db'
+    db_collection: str = 'device_description'
+
+    # class Config:
+    #     validate_assignment = True
+
+    # @validator('url')
+    # def set_url(cls, url):
+    #     return
+
+
 network_config = NetworkConfig()
+
 db_config = DbConfig()
+mongo_db_config = MongoDbConfig()
+
+
 api_config = ApiConfig()
 auth_config = AuthConfig()
 middleware_config = MiddleWareConfig()
