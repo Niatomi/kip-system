@@ -1,31 +1,20 @@
-from src.config import (
-    network_config,
-    db_config,
-    api_config,
-    auth_config,
-    middleware_config,
-    env_config,
-)
+from .oauth2 import verify_access_token
+from fastapi.responses import JSONResponse
+from .schemas import UserCredentials
+from fastapi import status
+from fastapi.exceptions import HTTPException
+from src.models import Users
 from fastapi import APIRouter
 from fastapi import Depends
-from fastapi import status
-from fastapi.responses import JSONResponse
-
-from src.database import get_async_session
+from tortoise.expressions import Q
 from . import schemas as auth_schemas
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import utils
-from src.auth.exceptions import InvalidCredentialsException
 from .oauth2 import (
     create_access_token
 )
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-
-from src.repository.user import (
-    UserRepository,
-    UserNotFoundException
-)
+from .utils import hash
 
 router = APIRouter(
     tags=["Authentication"],
@@ -33,53 +22,45 @@ router = APIRouter(
 )
 
 
-@router.post('/sign_in',
-             responses={
-                 status.HTTP_403_FORBIDDEN: {
-                     "model": auth_schemas.InvalidCredentialsResponse,
-                     "description": "User credentials is invalid"
-                 },
-                 status.HTTP_200_OK: {
-                     "model": auth_schemas.UserToken,
-                     "description": "Credentials is valid successfully logged in"
-                 }
-             },
-             response_model=auth_schemas.UserToken)
-async def sign_in(user_credentials: OAuth2PasswordRequestForm = Depends(),
-                  session: AsyncSession = Depends(get_async_session)):
-    try:
-        user_from_db = await UserRepository.get_by_login(session=session,
-                                                         login=user_credentials.username)
-    except UserNotFoundException:
-        raise InvalidCredentialsException
-    if not utils.verify(user_credentials.password, user_from_db.password):
-        raise InvalidCredentialsException
+@router.post('/sign_in')
+async def sign_in(user_credentials: OAuth2PasswordRequestForm = Depends()):
+    user = await Users.filter(username=user_credentials.username).first()
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Login failed')
+    if not utils.verify(user_credentials.password, user.password_hash):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Login failed')
 
     user_token = auth_schemas.UserToken()
     user_token.access_token = create_access_token({
-        "user_id": str(user_from_db.id)})
-    return user_token.dict()
+        "user_id": str(user.id)})
+    return user_token
 
 
-@router.post('/sign_up',
-             responses={
-                 status.HTTP_400_BAD_REQUEST: {
-                     "model": auth_schemas.UserAlredyExistsResponse,
-                     "description": "User already exists"
-                 },
-                 status.HTTP_201_CREATED: {
-                     "model": auth_schemas.UserCreatedResponse,
-                     "description": "User created"
-                 }
-             },
-             response_model=auth_schemas.UserCreatedResponse)
-async def sign_up(sign_up_user: auth_schemas.UserCredentials,
-                  session: AsyncSession = Depends(get_async_session)):
-    await UserRepository.create(session=session, user_credentials=sign_up_user)
-    response = auth_schemas.UserCreatedResponse()
-    return JSONResponse(status_code=response.status_code, content=response.dict())
+@router.post('/sign_up')
+async def sign_up(sign_up_user: UserCredentials):
+    user = await Users.filter(Q(username=sign_up_user.username) |
+                              Q(email=sign_up_user.email)).first()
+    if user is not None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User already exists')
+    sign_up_user = sign_up_user.dict()
+    sign_up_user['password_hash'] = hash(sign_up_user.pop('password'))
+
+    await Users.create(**sign_up_user)
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=None)
 
 
-@router.get('/get_vars')
-def func():
-    return middleware_config.cors_hosts
+@router.put('/refresh_token')
+async def refresh_token(token_schema: auth_schemas.UserToken):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail='Bad token')
+
+    user_id = verify_access_token(
+        token=token_schema.access_token,
+        credentials_exception=credentials_exception)
+    print(user_id)
+
+    user_token = auth_schemas.UserToken()
+    user_token.access_token = create_access_token({
+        "user_id": str(user_id)})
+    return user_token

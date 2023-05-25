@@ -1,32 +1,26 @@
-from sqlalchemy import MetaData
-
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.asyncio import async_sessionmaker
-from sqlalchemy.pool import NullPool
-
-from sqlalchemy.orm import declarative_base
-
-from typing import AsyncGenerator
-
+from fastapi import FastAPI
+from tortoise.contrib.fastapi import register_tortoise
 from src.config import db_config
 
-from sqlalchemy.ext.asyncio import AsyncSession
+db_url = f'postgres://{db_config.db_user}:{db_config.db_pass}@{db_config.db_host}:{db_config.db_port}/{db_config.db_name}'
+models = ["src.models", "aerich.models"]
 
-DATABASE_URL = f"postgresql+asyncpg://\
-                {db_config.db_user}:\
-                {db_config.db_pass}@\
-                {db_config.db_host}:\
-                {db_config.db_port}\
-                /{db_config.db_name}"
-
-engine = create_async_engine(
-    DATABASE_URL, poolclass=NullPool, echo=db_config.ddl_show)
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
-
-Base = declarative_base()
-metadata = MetaData()
+TORTOISE_ORM = {
+    "connections": {"default": db_url},
+    "apps": {
+        "models": {
+            "models": models,
+            "default_connection": "default",
+        },
+    },
+}
 
 
-async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_maker() as session:
-        yield session
+def init_db(app: FastAPI) -> None:
+    register_tortoise(
+        app,
+        db_url=db_url,
+        modules={"models": models},
+        generate_schemas=False,
+        add_exception_handlers=True,
+    )

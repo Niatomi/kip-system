@@ -1,13 +1,14 @@
+from src.database import init_db
 from fastapi import FastAPI
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.config import network_config
-
 from src.config import middleware_config
 from src.config import api_config
 
 from src.auth.router import router as auth_router
+from fastapi_pagination import add_pagination
 
 app = FastAPI(
     title="КИП",
@@ -25,9 +26,12 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["POST", "GET", "DELETE", 'PATCH'],
+    allow_methods=["POST", "GET", "DELETE", 'PUT'],
     allow_headers=["*"],
 )
+
+init_db(app)
+add_pagination(app)
 
 
 def main():
