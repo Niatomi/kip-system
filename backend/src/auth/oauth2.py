@@ -22,7 +22,7 @@ from src.config import (
 SECRET = auth_config.jwt_secret
 ALGORITHM = auth_config.jwt_alg
 ACCESS_TOKEN_EXPIRE_MINUTES = auth_config.jwt_exp
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'{api_config.api_version}/auth/sign_in')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'{api_config.api_version_path}/auth/sign_in')
 
 
 def create_access_token(data: dict):
@@ -53,5 +53,5 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Users:
         token_data = verify_access_token(token, credentials_exception)
     except credentials_exception:
         raise credentials_exception
-    user = await Users.filter(id=token_data.user_id).first()
+    user = await Users.filter(id=token_data['user_id']).first()
     return user
