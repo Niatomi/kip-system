@@ -1,9 +1,23 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
-from src.config import db_config
+from src.config import (
+    db_config,
+    mongo_db_config
+)
+from motor.motor_asyncio import AsyncIOMotorClient
 
-db_url = f'postgres://{db_config.db_user}:{db_config.db_pass}@{db_config.db_host}:{db_config.db_port}/{db_config.db_name}'
-models = ["src.models", "aerich.models"]
+mongo_url = 'mongodb://' + \
+    f'{mongo_db_config.mongo_username}:{mongo_db_config.mongo_password}@' + \
+    f'localhost:27017/{mongo_db_config.database_name}?retryWrites=true&w=majority'
+
+
+client = AsyncIOMotorClient(mongo_url)
+db = client.kip_system_db
+
+db_url = 'postgres://' + \
+    f'{db_config.db_user}:{db_config.db_pass}@' + \
+    f'{db_config.db_host}:{db_config.db_port}/{db_config.db_name}'
+models = ["src.models", "src.devices.models", "aerich.models"]
 
 TORTOISE_ORM = {
     "connections": {"default": db_url},
