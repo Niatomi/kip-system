@@ -1,5 +1,3 @@
-from typing import Optional
-from pydantic import validator
 from pydantic import BaseSettings
 from typing import List
 
