@@ -1,32 +1,25 @@
-import asyncio
-from typing import Generator, AsyncGenerator
-
+from typing import Generator
 import pytest
-import pytest_asyncio
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from asyncio import get_event_loop
 
-from main import app
+from src.main import app
 
-
-@pytest.fixture(autouse=True, scope="session")
-def run_migrations() -> None:
-    import os
-
-    print("running migrations..")
-    os.system("alembic upgrade head")
+from tortoise import Tortoise
 
 
 @pytest.fixture(scope="session")
-def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
+def conn() -> Generator:
+    yield Tortoise.get_connection("default")
 
 
-@pytest_asyncio.fixture
-async def client() -> AsyncGenerator[TestClient, None]:
-    host, port = "127.0.0.1", "9000"
-    scope = {"client": (host, port)}
-
-    async with TestClient(app, scope=scope) as client:
+@pytest.fixture(scope="module")
+async def async_client() -> Generator:
+    async with AsyncClient(app=app, base_url="http://testserver") as client:
         yield client
+
+
+@pytest.fixture(scope="module")
+def event_loop():
+    loop = get_event_loop()
+    yield loop
