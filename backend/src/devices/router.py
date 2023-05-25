@@ -10,10 +10,6 @@ from fastapi import Depends
 from src.auth.oauth2 import get_current_user
 from uuid import UUID
 from src.models import Roles
-from fastapi_pagination import (
-    LimitOffsetPage,
-    Page
-)
 from . import models
 from . import schemas
 
