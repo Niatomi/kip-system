@@ -1,3 +1,4 @@
+from src.devices.device_pool.router import router as device_pool_router
 from src.models import Users
 from src.database import init_db
 from fastapi import FastAPI
@@ -11,7 +12,7 @@ from src.config import api_config
 from fastapi_pagination import add_pagination
 
 from src.auth.router import router as auth_router
-from src.devices.router import router as devices_router
+from src.devices.active_devices.router import router as active_devices_router
 import sys
 
 app = FastAPI(
@@ -23,7 +24,9 @@ app = FastAPI(
 
 app.include_router(router=auth_router,
                    prefix=api_config.api_version_path)
-app.include_router(router=devices_router,
+app.include_router(device_pool_router,
+                   prefix=api_config.api_version_path)
+app.include_router(router=active_devices_router,
                    prefix=api_config.api_version_path)
 
 
@@ -55,7 +58,7 @@ def ping_api():
 
 
 def main():
-    uvicorn.run("main:app",
+    uvicorn.run("src.main:app",
                 reload=api_config.is_dev,
                 port=network_config.port,
                 host=network_config.host)
