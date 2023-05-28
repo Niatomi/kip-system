@@ -12,6 +12,7 @@ class DevicesPool(models.Model):
     """
 
     id = fields.UUIDField(pk=True)
+    mongo_id = fields.CharField(max_length=25)
     name = fields.CharField(max_length=50)
     check_intervals = fields.BigIntField()
     group = fields.CharField(max_length=30)
@@ -38,7 +39,9 @@ class ActiveDevices(models.Model):
 Tortoise.init_models([__name__], "models")
 DevicePoolPydantic = pydantic_model_creator(DevicesPool,
                                             name='Device',
-                                            exclude=['id', 'active_devices'])
+                                            exclude=['id',
+                                                     'active_devices',
+                                                     'mongo_id'])
 ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices)
 
 
