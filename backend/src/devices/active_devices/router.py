@@ -13,7 +13,7 @@ from src.models import Roles
 
 router = APIRouter(prefix='/active_devices',
                    dependencies=[Depends(get_current_user)],
-                   tags=['Active Devices'])
+                   tags=['Chief', 'Worker'])
 
 
 @router.get('/')
