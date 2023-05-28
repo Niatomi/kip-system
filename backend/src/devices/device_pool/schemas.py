@@ -1,8 +1,9 @@
-from .models import DevicePoolPydantic
+from ..models import DevicePoolPydantic
 from typing import List
+from pydantic import BaseModel
 
 
-class DevicePoolPost(DevicePoolPydantic):
+class DevicePoolPost(BaseModel):
     description: str
     specifications: List[dict]
 
