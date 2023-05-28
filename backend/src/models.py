@@ -48,6 +48,9 @@ UserCredentialsPydantic = pydantic_model_creator(Users,
                                                      'second_name',
                                                      'third_name'
                                                  ])
-User_Pydantic = pydantic_model_creator(Users,
-                                       name="User")
+UserTyperPydantic = pydantic_model_creator(Users,
+                                           name='User',
+                                           include=['password_hash'])
+# User_Pydantic = pydantic_model_creator(Users,
+#                                        name="User")
 UserIn_Pydantic = pydantic_model_creator(Users, name="UserIn", exclude_readonly=True)
