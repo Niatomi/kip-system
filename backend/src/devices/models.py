@@ -1,3 +1,4 @@
+from tortoise import Tortoise
 from typing import List
 from pydantic import BaseModel, Field
 from bson import ObjectId
@@ -34,7 +35,10 @@ class ActiveDevices(models.Model):
     place = fields.CharField(max_length=60)
 
 
-DevicePoolPydantic = pydantic_model_creator(DevicesPool, exclude=['id', 'active_devices'])
+Tortoise.init_models([__name__], "models")
+DevicePoolPydantic = pydantic_model_creator(DevicesPool,
+                                            name='Device',
+                                            exclude=['id', 'active_devices'])
 ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices)
 
 
@@ -63,9 +67,3 @@ class DeviceInfo(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
-        schema_extra = {
-            "example": {
-                "description": "Blah blah blah",
-                "specifications": [{'example': 'example'}],
-            }
-        }
