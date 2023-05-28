@@ -51,7 +51,7 @@ async def startup_event():
         sys.exit(-2)
 
 
-@app.get('/ping',
+@app.get(f'{api_config.api_version_path}/ping',
          tags=['Healthcheck'])
 def ping_api():
     return 'Pong'
