@@ -3,4 +3,4 @@ run:
 	python -m src.main
 
 test:
-	pytest -v
+	pytest -s
