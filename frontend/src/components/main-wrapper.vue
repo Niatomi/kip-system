@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "vMainWrapper",
+  name: "MainWrapper",
   components: {},
   props: {},
   data() {
@@ -18,4 +18,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-main-wrapper {
+  // min-height: max-content;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+</style>
