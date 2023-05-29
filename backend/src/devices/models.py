@@ -13,7 +13,7 @@ class DevicesPool(models.Model):
 
     id = fields.UUIDField(pk=True)
     mongo_id = fields.CharField(max_length=25)
-    name = fields.CharField(max_length=50)
+    name = fields.CharField(max_length=50, unique=True)
     check_intervals = fields.BigIntField()
     group = fields.CharField(max_length=30)
     price = fields.DecimalField(max_digits=20, decimal_places=2)
@@ -42,6 +42,8 @@ DevicePoolPydantic = pydantic_model_creator(DevicesPool,
                                             exclude=['id',
                                                      'active_devices',
                                                      'mongo_id'])
+DevicePoolFullInfo = pydantic_model_creator(DevicesPool,
+                                            name="Device")
 ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices)
 
 
@@ -68,5 +70,14 @@ class DeviceInfo(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+class UpdateDeviceInfo(BaseModel):
+    description: str = Field(...)
+    specifications: List[dict] = Field(...)
+
+    class Config:
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
