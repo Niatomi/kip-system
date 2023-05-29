@@ -1,24 +1,30 @@
 <template>
   <div class="auth-wrapper">
     <div class="logo-container">
-      <img
-        :src="require('@/assets/logo/Logo-lighter.svg/')"
-        alt="Logo"
-        height="150"
-      />
-      <h1>КИП Геофизика</h1>
-      <svg width="400" height="5">
+      <router-link to="/">
+        <img
+          :src="require('@/assets/logo/Logo-lighter.svg/')"
+          alt="Logo"
+          height="150"
+        />
+      </router-link>
+      <h2>КИП Геофизика</h2>
+      <svg width="380" height="5">
         <rect width="500" height="5" style="fill: #d9d9d9" />
       </svg>
     </div>
+
     <div class="auth-page-container">
-      <h1>Вход</h1>
+      <h2>Вход</h2>
       <form action="" class="input-container">
         <input type="text" placeholder="Логин" />
         <input type="text" placeholder="Пароль" />
         <button>Войти</button>
       </form>
     </div>
+    <router-link to="/">
+      <p>На главную</p>
+    </router-link>
   </div>
 </template>
 
@@ -36,7 +42,7 @@ export default {
 }
 .logo-container {
   margin-top: 3%;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 
   display: flex;
   flex-direction: column;
@@ -47,8 +53,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: $color8;
 
-  background: #d9d9d9;
+  background: $color7;
   padding-bottom: 3%;
   width: 50%;
   color: $secondary_textcolor;
@@ -76,6 +83,6 @@ button {
   height: 80px;
   color: $textcolor;
   font-family: inherit;
-  background: #9ece9a;
+  background: $color4;
 }
 </style>
