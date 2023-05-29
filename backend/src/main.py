@@ -12,7 +12,7 @@ from src.config import api_config
 from fastapi_pagination import add_pagination
 
 from src.auth.router import router as auth_router
-from src.devices.active_devices.router import router as active_devices_router
+from src.devices.devices_in_use.router import router as active_devices_router
 import sys
 
 app = FastAPI(
@@ -53,6 +53,7 @@ async def startup_event():
 
 @app.get(f'{api_config.api_version_path}/ping',
          tags=['Healthcheck'])
+@app.get('/')
 def ping_api():
     return 'Pong'
 
