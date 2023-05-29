@@ -24,6 +24,8 @@ class Users(models.Model):
     second_name = fields.CharField(max_length=50, null=True)
     third_name = fields.CharField(max_length=50, null=True)
 
+    chief_id = fields.UUIDField(null=True)
+
     role = fields.CharEnumField(Roles, null=True, default=Roles.worker)
 
     created_at = fields.DatetimeField(auto_now_add=True)
