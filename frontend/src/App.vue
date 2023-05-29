@@ -20,6 +20,12 @@ html {
   margin: 0 auto;
   height: 100%;
   font-family: Playfair;
+  font-size: 30px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 body {
@@ -40,9 +46,6 @@ input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="search"] {
-  padding: 2px 6px;
-  border: 1px solid #787878;
-  background: #fff;
   font: inherit;
   color: inherit;
 }
