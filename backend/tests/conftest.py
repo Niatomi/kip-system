@@ -1,3 +1,7 @@
+from src.auth.schemas import UserToken
+from src.models import Roles
+from src.models import Users
+from src.database import db
 import asyncio
 import pytest
 from httpx import AsyncClient
@@ -36,10 +40,36 @@ async def client():
         yield client
 
 
+@pytest.fixture(scope="session")
+async def admin_client():
+    async with AsyncClient(app=app, base_url="http://test/v1") as client:
+
+        admin = {
+            "username": "admin",
+            "first_name": "admin",
+            "second_name": "admin",
+            "third_name": "admin",
+            "full_name": "admin",
+            "email": "admin@example.com",
+            "password": "admin",
+        }
+        admin_credentials = {
+            'username': 'admin',
+            'password': 'admin'
+        }
+        r = await client.post("/auth/sign_up", json=admin)
+        await Users.filter(username='admin').update(role=Roles.admin)
+        r = await client.post("/auth/sign_in", data=admin_credentials)
+        token_scheme = UserToken(**r.json())
+        client.headers = {"Authorization": f"Bearer {token_scheme.access_token}"}
+        yield client
+
+
 @pytest.fixture(scope="session", autouse=True)
 async def initialize_tests():
     await init()
     yield
+    await db.device_description.drop()
     await Tortoise._drop_databases()
 
 
