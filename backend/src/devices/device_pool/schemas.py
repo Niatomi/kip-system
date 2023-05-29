@@ -1,11 +1,45 @@
-from ..models import DevicePoolPydantic
+from .. import models
+from tortoise.expressions import Q
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+from typing import Optional
 
 
-class DevicePoolPost(BaseModel):
+class DevicePoolBase(BaseModel):
     description: str
     specifications: List[dict]
 
+    @validator('specifications')
+    def check_specifications_is_not_empty(cls, v):
+        for d in v:
+            if d == {}:
+                raise ValueError('pairs could not be empty')
+        return v
+
     class Config():
         orm_mode = True
+
+
+class DevicePoolPost(DevicePoolBase):
+    pass
+
+
+class DevicePoolGet(models.DevicePoolFullInfo, models.DeviceInfo):
+    _id: str
+
+
+class DevicePoolGetRequest(BaseModel):
+    name: Optional[str]
+    group: Optional[str]
+    price: Optional[float]
+
+    def generate_exporession(cls):
+
+        qs = []
+
+        if cls.name is not None:
+            qs.append(Q(name=cls.name))
+        if cls.group is not None:
+            qs.append(Q(group=cls.group))
+
+        return qs
