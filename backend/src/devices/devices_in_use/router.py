@@ -11,7 +11,7 @@ from src.auth.oauth2 import get_current_user
 from uuid import UUID
 from src.models import Roles
 
-router = APIRouter(prefix='/active_devices',
+router = APIRouter(prefix='/devices',
                    dependencies=[Depends(get_current_user)],
                    tags=['Chief', 'Worker'])
 
