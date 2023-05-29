@@ -13,14 +13,16 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Playfair&display=swap");
+
 html {
   max-width: 1980px;
   margin: 0 auto;
   height: 100%;
+  font-family: Playfair;
 }
 
 body {
-  font-family: Arial sans-serif;
   color: $textcolor;
   margin: 0;
   padding: 0;
