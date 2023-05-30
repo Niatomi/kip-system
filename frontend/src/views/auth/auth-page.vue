@@ -35,6 +35,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h2 {
+  margin: 30px;
+}
 .auth-wrapper {
   display: flex;
   flex-direction: column;
@@ -58,6 +61,7 @@ export default {
   background: $color7;
   padding-bottom: 3%;
   width: 50%;
+  margin-bottom: 2%;
   color: $secondary_textcolor;
 }
 

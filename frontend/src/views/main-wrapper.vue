@@ -1,13 +1,18 @@
 <template>
+  <Navbar />
   <div class="v-main-wrapper">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Navbar from "@/components/navbar/navbar";
+
 export default {
   name: "MainWrapper",
-  components: {},
+  components: {
+    Navbar,
+  },
   props: {},
   data() {
     return {};
