@@ -14,10 +14,12 @@ class DevicesPool(models.Model):
     id = fields.UUIDField(pk=True)
     mongo_id = fields.CharField(max_length=25)
     name = fields.CharField(max_length=50, unique=True)
-    check_intervals = fields.BigIntField()
+    check_intervals = fields.IntField()
     group = fields.CharField(max_length=30)
     price = fields.DecimalField(max_digits=20, decimal_places=2)
+
     resource = fields.IntField()
+    resource_of_useful_usage = fields.IntField(default=5)
 
     active_devices = fields.ReverseRelation['ActiveDevices']
 
