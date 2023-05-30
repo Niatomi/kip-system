@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import MainWrapper from "@/components/main-wrapper";
+import MainWrapper from "@/views/main-wrapper";
 export default {
   name: "App",
   components: {
@@ -13,14 +13,24 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Playfair&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ledger&display=swap");
 
 html {
-  max-width: 1980px;
+  // max-width: 1980px;
   margin: 0 auto;
   height: 100%;
-  font-family: Playfair;
+  font-family: Old Standard TT;
   font-size: 30px;
+  // font-weight: 600;
+  background: #074f57;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+  margin: 0;
 }
 
 a {
@@ -33,8 +43,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 1980px;
-  min-height: 100%;
   display: flex;
   justify-content: stretch;
   align-items: stretch;
@@ -50,9 +58,12 @@ input[type="search"] {
   color: inherit;
 }
 
+p {
+  margin: 0;
+}
+
 #app {
   height: inherit;
   width: inherit;
-  background: #074f57;
 }
 </style>
