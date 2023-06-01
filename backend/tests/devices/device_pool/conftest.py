@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture(scope="session")
-async def device():
+async def device_1():
     return {
         "device_specs": {
             "description": "Description for device",
@@ -15,7 +15,7 @@ async def device():
         "device_info": {
             "name": "Device",
             "check_intervals": 123123,
-            "group": "string",
+            "category": "string",
             "price": 1000.01,
             "resource": 123123
         }
