@@ -1,2 +1,1 @@
 CREATE DATABASE kip_system_database;
-CREATE DATABASE kip_system_database_test;
