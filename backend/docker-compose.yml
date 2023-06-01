@@ -96,6 +96,7 @@ services:
     volumes:
       - ./docker/clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
       - ./docker/clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ./docker/clickhouse/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
       - clickhouse-network
  
