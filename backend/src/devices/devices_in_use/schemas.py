@@ -11,7 +11,7 @@ class ModufiedBaseModel(BaseModel):
 class GetParams(ModufiedBaseModel):
     category: Optional[str]
     preson_id: Optional[str]
-    status: Optional[str]
+    action: Optional[str]
     place: Optional[str]
 
     @validator("category")  # validates all fields
