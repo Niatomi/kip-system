@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+from typing import Optional
 
 
 class ModufiedBaseModel(BaseModel):
@@ -8,7 +9,15 @@ class ModufiedBaseModel(BaseModel):
 
 
 class GetParams(ModufiedBaseModel):
-    category: str
-    preson_id: str
-    status: str
-    place: str
+    category: Optional[str]
+    preson_id: Optional[str]
+    status: Optional[str]
+    place: Optional[str]
+
+    @validator("category")  # validates all fields
+    def validate_if_float(cls, value):
+
+        if cls.category is None and cls.preson_id is None and cls.status is None and cls.place is None:
+            raise ValueError('At least one param required')
+
+        return value
