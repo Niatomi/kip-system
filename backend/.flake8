@@ -1,4 +1,13 @@
 [flake8]
 max-line-length = 100
-exclude = .git,__pycache__,__init__.py,.mypy_cache,.pytest_cache,alembic/*,temp_*,./venv/*
+exclude = 
+    .git
+    __pycache__
+    __init__.py
+    .mypy_cache
+    .pytest_cache
+    alembic/*
+    temp_*
+    ./venv/*
+    ./src/declarative_tables.py
 ignore = E203,W503,F405,W504
