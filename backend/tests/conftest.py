@@ -1,7 +1,7 @@
 from src.auth.schemas import UserToken
 from src.models import Roles
 from src.models import Users
-from src.database import db
+from src.database import mongo_db
 import asyncio
 import pytest
 from httpx import AsyncClient
@@ -69,7 +69,7 @@ async def admin_client():
 async def initialize_tests():
     await init()
     yield
-    await db.device_description.drop()
+    await mongo_db.device_description.drop()
     await Tortoise._drop_databases()
 
 

@@ -1,5 +1,5 @@
 from bson.objectid import ObjectId
-from src.database import db
+from src.database import mongo_db
 from src.devices import models as device_models
 import pytest
 from httpx import AsyncClient
@@ -17,7 +17,7 @@ async def test_device_post_ok(admin_client: AsyncClient, device_1: dict):
     assert device_from_db is not None
     device_from_db.name == device_1["device_info"]['name']
 
-    mongo_device = await db.device_description.find_one(
+    mongo_device = await mongo_db.device_description.find_one(
         {"_id": ObjectId(oid=device_from_db.mongo_id)})
     assert mongo_device is not None
     assert mongo_device['specifications'] == device_1["device_specs"]['specifications']

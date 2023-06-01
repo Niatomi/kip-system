@@ -1,6 +1,6 @@
 from bson.objectid import ObjectId
 from tortoise.expressions import Q
-from src.database import db
+from src.database import mongo_db
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi import status
@@ -27,7 +27,7 @@ async def add_device_into_pool(device_specs: schemas.DevicePoolPost,
         device_info['mongo_id'] = 'None'
         await models.DevicesPool.create(**device_info)
 
-        new_device_info = await db.device_description.insert_one(
+        new_device_info = await mongo_db.device_description.insert_one(
             jsonable_encoder(device_specs)
         )
         device_info['mongo_id'] = new_device_info.inserted_id
@@ -52,7 +52,7 @@ async def get_device_by_id(device_id: str):
     pg_device = await models.DevicesPool.filter(id=device_id).first()
     if pg_device is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Device not found')
-    mongo_device = await db.device_description.find_one(
+    mongo_device = await mongo_db.device_description.find_one(
         {"_id": ObjectId(oid=pg_device.mongo_id)})
     if mongo_device is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -74,6 +74,6 @@ async def update_device_by_id(device_id,
         await models.DevicesPool.filter(id=device_id).update(**device_info)
         if device_specs is not None:
             mongo_info = device_specs.dict()
-            await db.device_description.update_one(
+            await mongo_db.device_description.update_one(
                 {"_id": ObjectId(pg_device.mongo_id)}, {"$set": mongo_info})
     return await get_device_by_id(device_id)
