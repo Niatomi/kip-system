@@ -17,6 +17,15 @@
             </networks>
             <quota>default</quota>
         </default>
+        <api>
+            <access_management>1</access_management>
+            <password>api</password>
+            <profile>default</profile>
+            <networks>
+                <ip>::/0</ip>
+            </networks>
+            <quota>default</quota>
+        </api>
         <admin>
             <access_management>1</access_management>
             <password>password</password>
