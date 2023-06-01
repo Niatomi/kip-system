@@ -15,7 +15,7 @@ from tortoise.transactions import in_transaction
 
 router = APIRouter(prefix='/device_pool',
                    dependencies=[Depends(utils.check_user_is_not_worker)],
-                   tags=['Admin', 'Chief'])
+                   tags=['Device Pool'])
 
 
 @router.post('/')
