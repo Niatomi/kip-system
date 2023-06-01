@@ -1,3 +1,10 @@
+from datetime import date
+from src.database import Base
+from uuid import uuid4
+from sqlalchemy import Column, func
+from clickhouse_sqlalchemy import (
+    Table, make_session, get_declarative_base, types, engines
+)
 from tortoise import Tortoise
 from typing import List
 from pydantic import BaseModel, Field
@@ -92,3 +99,17 @@ class UpdateDeviceInfo(BaseModel):
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+
+
+class Events(Base):
+    __tablename__ = 'events'
+    id = Column(types.UUID, primary_key=True, default=uuid4)
+    device_id = Column(types.UUID, nullable=False)
+    responsible_person = Column(types.UUID, nullable=False)
+    action = Column(types.String, nullable=False)
+    created_by = Column(types.UUID, nullable=False)
+    created_at = Column(types.Date, nullable=False, default=date.today)
+
+    __table_args__ = (
+        engines.MergeTree(),
+    )
