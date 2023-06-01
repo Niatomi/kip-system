@@ -1,9 +1,9 @@
 from datetime import date
 from src.database import Base
 from uuid import uuid4
-from sqlalchemy import Column, func
+from sqlalchemy import Column
 from clickhouse_sqlalchemy import (
-    Table, make_session, get_declarative_base, types, engines
+    types, engines
 )
 from tortoise import Tortoise
 from typing import List

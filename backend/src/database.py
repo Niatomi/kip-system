@@ -1,4 +1,3 @@
-from aioch import Client
 from .config import clickhouse_db_config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,7 +21,8 @@ mongo_db = client[f'{mongo_db_config.database_name}']
 
 db_url = 'postgres://' + \
     f'{postgres_db_config.postgres_user}:{postgres_db_config.postgres_password}@' + \
-    f'{postgres_db_config.postgres_host}:{postgres_db_config.postgres_port}/{postgres_db_config.postgres_db_name}'
+    f'{postgres_db_config.postgres_host}:{postgres_db_config.postgres_port}/' + \
+    f'{postgres_db_config.postgres_db_name}'
 models = ["src.models", "src.devices.models", "aerich.models"]
 TORTOISE_ORM = {
     "connections": {"default": db_url},
@@ -51,7 +51,8 @@ def init_db(app: FastAPI) -> None:
 
 clickhouse_url = 'clickhouse+asynch://' + \
     f'{clickhouse_db_config.clickhouse_user}:{clickhouse_db_config.clickhouse_password}@' + \
-    f'{clickhouse_db_config.clickhouse_host}:9000/f{clickhouse_db_config.clickhouse_db_name}?echo=True'
+    f'{clickhouse_db_config.clickhouse_host}:9000/' + \
+    'f{clickhouse_db_config.clickhouse_db_name}?echo=True'
 engine = create_async_engine(clickhouse_url)
 Base = declarative_base()
 async_session = sessionmaker(
