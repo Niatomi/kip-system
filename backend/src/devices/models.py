@@ -15,7 +15,7 @@ class DevicesPool(models.Model):
     mongo_id = fields.CharField(max_length=25)
     name = fields.CharField(max_length=50, unique=True)
     check_intervals = fields.IntField()
-    group = fields.CharField(max_length=30)
+    category = fields.CharField(max_length=30)
     price = fields.DecimalField(max_digits=20, decimal_places=2)
 
     resource = fields.IntField()
@@ -30,12 +30,12 @@ class ActiveDevices(models.Model):
     """
 
     id = fields.UUIDField(pk=True)
-    device_id: fields.ForeignKeyRelation[DevicesPool] = fields.ForeignKeyField(
-        'models.DevicesPool', related_name='active_devices'
+    device: fields.ForeignKeyRelation[DevicesPool] = fields.ForeignKeyField(
+        'models.DevicesPool', related_name='active_devices', to_field='id', unique=False
     )
     invent_number = fields.CharField(max_length=50)
     serial_number = fields.CharField(max_length=50)
-    place = fields.CharField(max_length=60)
+    place = fields.CharField(max_length=60, unique=False)
 
 
 Tortoise.init_models([__name__], "models")
@@ -46,7 +46,16 @@ DevicePoolPydantic = pydantic_model_creator(DevicesPool,
                                                      'mongo_id'])
 DevicePoolFullInfo = pydantic_model_creator(DevicesPool,
                                             name="Device")
-ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices)
+
+ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices,
+                                               name='ActiveDevice',
+                                               exclude=('id', 'device',)
+                                               )
+ActiveDevicesPydanticPost = pydantic_model_creator(ActiveDevices,
+                                                   name='ActiveDevicePost',
+                                                   exclude=('id', 'device',))
+ActiveDevicesPydanticGet = pydantic_model_creator(ActiveDevices,
+                                                  name='ActiveDeviceGet')
 
 
 class PyObjectId(ObjectId):
