@@ -34,10 +34,6 @@ TORTOISE_ORM = {
     },
 }
 
-if api_config.is_dev:
-    print(mongo_url)
-    print(db_url)
-
 
 def init_db(app: FastAPI) -> None:
     register_tortoise(
@@ -52,12 +48,17 @@ def init_db(app: FastAPI) -> None:
 clickhouse_url = 'clickhouse+asynch://' + \
     f'{clickhouse_db_config.clickhouse_user}:{clickhouse_db_config.clickhouse_password}@' + \
     f'{clickhouse_db_config.clickhouse_host}:9000/' + \
-    'f{clickhouse_db_config.clickhouse_db_name}?echo=True'
+    f'{clickhouse_db_config.clickhouse_db_name}'
 engine = create_async_engine(clickhouse_url)
 Base = declarative_base()
 async_session = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
 )
+
+if api_config.is_dev:
+    print(mongo_url)
+    print(db_url)
+    print(clickhouse_url)
 
 
 async def get_session() -> AsyncSession:
