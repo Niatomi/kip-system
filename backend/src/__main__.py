@@ -52,14 +52,15 @@ async def startup_event():
 
 
 @app.get(f'{api_config.api_version_path}/ping',
-         tags=['Healthcheck'])
-@app.get('/')
+         tags=['Healthcheck'],
+         include_in_schema=False)
+@app.get('/', include_in_schema=False)
 def ping_api():
     return 'Pong'
 
 
 def main():
-    uvicorn.run("src.main:app",
+    uvicorn.run("src.__main__:app",
                 reload=api_config.is_dev,
                 port=network_config.port,
                 host=network_config.host)
