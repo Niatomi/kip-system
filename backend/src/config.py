@@ -9,12 +9,12 @@ class SettingsBase(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
-class DbConfig(SettingsBase):
-    db_user: str
-    db_pass: str
-    db_host: str
-    db_port: str
-    db_name: str
+class PostgresDbConfig(SettingsBase):
+    postgres_user: str
+    postgres_password: str
+    postgres_host: str
+    postgres_port: str
+    postgres_db_name: str
     ddl_show: bool = False
 
 
@@ -50,8 +50,16 @@ class MongoDbConfig(SettingsBase):
     db_collection: str = 'device_description'
 
 
+class ClickhouseDbConfig(SettingsBase):
+    clickhouse_user: str
+    clickhouse_password: str
+    clickhouse_host: str
+    clickhouse_db_name: str
+
+
 network_config = NetworkConfig()
-db_config = DbConfig()
+postgres_db_config = PostgresDbConfig()
+clickhouse_db_config = ClickhouseDbConfig()
 mongo_db_config = MongoDbConfig()
 api_config = ApiConfig()
 auth_config = AuthConfig()
