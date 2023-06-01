@@ -1,3 +1,5 @@
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from .. import utils
 from collections import ChainMap
 from tortoise.transactions import in_transaction
@@ -6,7 +8,7 @@ from fastapi import status
 from fastapi.exceptions import HTTPException
 from fastapi import APIRouter
 from fastapi import Depends
-
+from src.database import get_session
 from src.utils import check_user_is_not_worker
 from . import schemas
 
@@ -51,6 +53,14 @@ async def get_avaiable_categories():
 
 @router.get('/reposponsible_persons')
 async def get_reponsible_presons():
+    return 'Not implemented'
+
+
+@router.get('/actions')
+async def get_status(session: AsyncSession = Depends(get_session)):
+    query = select(models.Events.action).distinct(models.Events.action)
+    result = await session.execute(query)
+    print(result)
     return 'Not implemented'
 
 
