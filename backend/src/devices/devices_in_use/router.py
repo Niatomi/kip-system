@@ -1,3 +1,11 @@
+from time import sleep
+from sqlalchemy.engine.result import ScalarResult
+from uuid import UUID
+from uuid import uuid4
+from src.auth.oauth2 import get_current_user
+from src.models import Users
+from sqlalchemy import insert
+from sqlalchemy.engine.result import ChunkedIteratorResult
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from .. import utils
@@ -59,8 +67,9 @@ async def get_reponsible_presons():
 @router.get('/actions')
 async def get_status(session: AsyncSession = Depends(get_session)):
     query = select(models.Events.action).distinct(models.Events.action)
-    result = await session.execute(query)
-    print(result)
+    result: ChunkedIteratorResult = await session.execute(query)
+    if result.scalar() is None:
+        return []
     return 'Not implemented'
 
 
@@ -73,9 +82,28 @@ async def get_places_of_installation():
 
 
 @router.post('/')
-async def add_device(device: models.ActiveDevicesPydanticPost):
+async def add_device(device: models.ActiveDevicesPydanticPost,
+                     responsible_person: str,
+                     session: AsyncSession = Depends(get_session),
+                     current_user: Users = Depends(get_current_user)):
     async with in_transaction():
-        model = await models.ActiveDevices.create(**device.dict())
+
+        if Users.filter(id=responsible_person).first() is None:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail='Responsible not found')
+
+        click_object = {
+            'id': str(uuid4()),
+            'device_id': str(device.device_id),
+            'responsible_person': responsible_person,
+            'action': 'REGISTRED',
+            'created_by': str(current_user.id)
+        }
+        await session.execute(models.Events.__table__.insert(), click_object)
+        device = device.dict()
+        device['id'] = click_object['id']
+        model = await models.ActiveDevices.create(**device)
+
     return model
 
 
