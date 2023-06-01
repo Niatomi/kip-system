@@ -85,11 +85,39 @@ services:
       - mongodb_net
     ports:
       - 3300:3000
+  
+  clickhouse:
+    container_name: clickhouse
+    image: yandex/clickhouse-server
+    restart: always
+    ports:
+      - "8123:8123" # HTTP-порт для запросов к ClickHouse
+      - "9000:9000" # Native-порт для запросов к ClickHouse
+    volumes:
+      - ./docker/clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./docker/clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+    networks:
+      - clickhouse-network
+ 
+  dbeaver:
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
+    restart: always
+    ports:
+      - "3301:8978"
+    volumes:
+      - local_dbeaver:/var/cloudbeaver/workspace:/opt/cloudbeaver/workspace 
+    networks:
+      - clickhouse-network
+ 
 
 volumes:
   postgres:
   pgadmin:
   data: {}
+
+  local_dbeaver:
+
 
 networks:
   postgres:
@@ -101,3 +129,10 @@ networks:
   # default:
   #   external: true
   #   name: app_main
+
+  clickhouse-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16 
