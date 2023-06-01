@@ -7,30 +7,30 @@ from httpx import AsyncClient
 @pytest.mark.parametrize("params",
                          [
                              {'name': 'Device'},
-                             {'group': 'string'},
+                             {'category': 'string'},
                              {
                                  'name': 'Device',
-                                 'group': 'string'
+                                 'category': 'string'
                              },
                          ])
-async def test_device_get_ok(admin_client: AsyncClient, device: dict, params):
-    await admin_client.post('/device_pool/', json=device)
+async def test_device_get_ok(admin_client: AsyncClient, device_1: dict, params):
+    await admin_client.post('/device_pool/', json=device_1)
     r = await admin_client.get('/device_pool/device', params=params)
     assert r.status_code == 200
-    assert r.json()['name'] == device['device_info']['name']
+    assert r.json()['name'] == device_1['device_info']['name']
 
 
 @pytest.mark.anyio
-async def test_device_post_get_no_params(admin_client: AsyncClient, device: dict):
-    await admin_client.post('/device_pool/', json=device)
+async def test_device_post_get_no_params(admin_client: AsyncClient, device_1: dict):
+    await admin_client.post('/device_pool/', json=device_1)
     r = await admin_client.get('/device_pool/device')
     assert r.status_code == 400
     assert r.json()['detail'] == 'At least one params required'
 
 
 @pytest.mark.anyio
-async def test_device_get_by_id_ok(admin_client: AsyncClient, device: dict):
-    await admin_client.post('/device_pool/', json=device)
+async def test_device_get_by_id_ok(admin_client: AsyncClient, device_1: dict):
+    await admin_client.post('/device_pool/', json=device_1)
     r = await admin_client.get('/device_pool/device', params={'name': 'Device'})
     assert r.status_code == 200
     r = await admin_client.get(f'/device_pool/device/{r.json()["id"]}', params={'name': 'Device'})
@@ -40,7 +40,7 @@ async def test_device_get_by_id_ok(admin_client: AsyncClient, device: dict):
 
 
 @pytest.mark.anyio
-async def test_device_get_bad(admin_client: AsyncClient, device: dict):
+async def test_device_get_bad(admin_client: AsyncClient, device_1: dict):
     r = await admin_client.get(f'/device_pool/device/{uuid4()}', params={'name': 'Device'})
     assert r.status_code == 400
     assert r.json()['detail'] == 'Device not found'

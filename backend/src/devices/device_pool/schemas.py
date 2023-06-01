@@ -30,7 +30,7 @@ class DevicePoolGet(models.DevicePoolFullInfo, models.DeviceInfo):
 
 class DevicePoolGetRequest(BaseModel):
     name: Optional[str]
-    group: Optional[str]
+    category: Optional[str]
     price: Optional[float]
 
     def generate_exporession(cls):
@@ -39,7 +39,7 @@ class DevicePoolGetRequest(BaseModel):
 
         if cls.name is not None:
             qs.append(Q(name=cls.name))
-        if cls.group is not None:
-            qs.append(Q(group=cls.group))
+        if cls.category is not None:
+            qs.append(Q(category=cls.category))
 
         return qs

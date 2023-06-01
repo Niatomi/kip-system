@@ -14,7 +14,7 @@ update_schema = {
     "device_info": {
         "name": "Device",
         "check_intervals": 10000,
-        "group": "string",
+        "category": "string",
         "price": 10000.01,
         "resource": 10000
     }
@@ -22,8 +22,8 @@ update_schema = {
 
 
 @pytest.mark.anyio
-async def test_device_update_ok(admin_client: AsyncClient, device: dict):
-    await admin_client.post('/device_pool/', json=device)
+async def test_device_update_ok(admin_client: AsyncClient, device_1: dict):
+    await admin_client.post('/device_pool/', json=device_1)
     r = await admin_client.get('/device_pool/device', params={'name': 'Device'})
     device_id = r.json()["id"]
     r = await admin_client.get(f'/device_pool/device/{device_id}')
@@ -40,13 +40,13 @@ async def test_device_update_ok(admin_client: AsyncClient, device: dict):
 
 
 @pytest.mark.anyio
-async def test_device_update_duplicate_bad(admin_client: AsyncClient, device: dict):
-    await admin_client.post('/device_pool/', json=device)
+async def test_device_update_duplicate_bad(admin_client: AsyncClient, device_1: dict):
+    await admin_client.post('/device_pool/', json=device_1)
 
-    device = device.copy()
-    device['device_info']['name'] = 'Device1'
+    device_1 = device_1.copy()
+    device_1['device_info']['name'] = 'Device1'
     update_schema['device_info']['name'] = 'Device'
-    await admin_client.post('/device_pool/', json=device)
+    await admin_client.post('/device_pool/', json=device_1)
 
     r = await admin_client.get('/device_pool/device', params={'name': 'Device1'})
     device_id = r.json()["id"]
