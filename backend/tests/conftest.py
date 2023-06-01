@@ -7,7 +7,7 @@ import pytest
 from httpx import AsyncClient
 from tortoise import Tortoise
 
-from src.main import app
+from src.__main__ import app
 from src.database import db_url, models
 
 DB_URL = db_url
