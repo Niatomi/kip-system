@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from src.database import Base
 from uuid import uuid4
 from sqlalchemy import Column
@@ -52,7 +52,10 @@ DevicePoolPydantic = pydantic_model_creator(DevicesPool,
                                                      'active_devices',
                                                      'mongo_id'])
 DevicePoolFullInfo = pydantic_model_creator(DevicesPool,
-                                            name="Device")
+                                            name="DeviceFullInfo")
+DevicePoolFullInfoGet = pydantic_model_creator(DevicesPool,
+                                               name="DeviceFullInfoGet",
+                                               exclude=['active_devices'])
 
 ActiveDevicesPydantic = pydantic_model_creator(ActiveDevices,
                                                name='ActiveDevice',
@@ -62,7 +65,8 @@ ActiveDevicesPydanticPost = pydantic_model_creator(ActiveDevices,
                                                    name='ActiveDevicePost',
                                                    exclude=('id', 'device',))
 ActiveDevicesPydanticGet = pydantic_model_creator(ActiveDevices,
-                                                  name='ActiveDeviceGet')
+                                                  name='ActiveDeviceGet',
+                                                  exclude=['device'])
 
 
 class PyObjectId(ObjectId):
@@ -108,7 +112,7 @@ class Events(Base):
     responsible_person = Column(types.UUID, nullable=False)
     action = Column(types.String, nullable=False)
     created_by = Column(types.UUID, nullable=False)
-    created_at = Column(types.Date, nullable=False, default=date.today)
+    created_at = Column(types.DateTime, nullable=False, default=datetime.utcnow)
 
     __table_args__ = (
         engines.MergeTree(),

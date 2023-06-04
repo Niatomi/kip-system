@@ -1,3 +1,4 @@
+from tortoise import Tortoise
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 from enum import Enum
@@ -42,17 +43,24 @@ class Users(models.Model):
         exclude = ["password_hash"]
 
 
+Tortoise.init_models([__name__], "models")
 UserCredentialsPydantic = pydantic_model_creator(Users,
-                                                 name="User",
+                                                 name="UserCredentials",
                                                  include=[
                                                      'username',
                                                      'first_name',
                                                      'second_name',
-                                                     'third_name'
+                                                     'third_name',
+                                                     'role'
                                                  ])
 UserTyperPydantic = pydantic_model_creator(Users,
-                                           name='User',
+                                           name='UserTyper',
                                            include=['password_hash'])
-# User_Pydantic = pydantic_model_creator(Users,
-#                                        name="User")
-UserIn_Pydantic = pydantic_model_creator(Users, name="UserIn", exclude_readonly=True)
+UserOutPydantic = pydantic_model_creator(Users,
+                                         name='UserOut',
+                                         exclude=['password_hash'],
+                                         )
+
+UserInPydantic = pydantic_model_creator(Users,
+                                        name="UserIn",
+                                        exclude_readonly=True)
