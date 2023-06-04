@@ -33,7 +33,7 @@ class DevicePoolGetRequest(BaseModel):
     category: Optional[str]
     price: Optional[float]
 
-    def generate_exporession(cls):
+    def generate_expression(cls):
 
         qs = []
 
