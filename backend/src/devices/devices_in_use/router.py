@@ -1,10 +1,14 @@
-from time import sleep
-from sqlalchemy.engine.result import ScalarResult
+from datetime import timedelta
+import datetime
+from .utils import diff_month
+from . import service
 from uuid import UUID
+from ..models import ActiveDevicesPydanticGet, DevicePoolFullInfo
+from typing import List
+from .utils import check_device_is_exists
 from uuid import uuid4
 from src.auth.oauth2 import get_current_user
 from src.models import Users
-from sqlalchemy import insert
 from sqlalchemy.engine.result import ChunkedIteratorResult
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,6 +23,7 @@ from fastapi import Depends
 from src.database import get_session
 from src.utils import check_user_is_not_worker
 from . import schemas
+from ..utils import get_mongo_object_by_id
 
 router = APIRouter(prefix='/devices_in_use',
                    dependencies=[Depends(check_user_is_not_worker)],
@@ -27,14 +32,143 @@ router = APIRouter(prefix='/devices_in_use',
 # Many devices
 
 
-@router.get('/')
+@router.get('/', response_model=List[schemas.DeviceInUseOut])
 async def get_devices_by_params_in_pages(
-        params: schemas.GetParams = Depends(schemas.GetParams)):
-    return 'Not implemented'
+        params: schemas.GetParams = Depends(schemas.GetParams),
+        session: AsyncSession = Depends(get_session)):
+    if (params.category is None and
+        params.person_id is None and
+        params.action is None and
+            params.place is None):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail='At least one argument must exists')
+    result = []
+    if params.category is not None:
+        postgre_res = await models.ActiveDevices.filter(
+            device__category=params.category).prefetch_related('device').all()
+        for item in postgre_res:
+
+            active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
+            device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
+            device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('active_devices')
+
+            action = await session.execute(
+                select(models.Events.action).order_by(
+                    models.Events.created_at.desc()).filter(models.Events.device_id == item.id))
+            action = {'current_action': action.scalar()}
+
+            mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+            mongo_info.pop('_id')
+            device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+            result.append(device)
+        return result
+
+    if params.place is not None:
+        postgre_res = await models.ActiveDevices.filter(
+            place=params.place).prefetch_related('device').all()
+        for item in postgre_res:
+
+            active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
+            device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
+            device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('active_devices')
+
+            action = await session.execute(
+                select(models.Events.action).order_by(
+                    models.Events.created_at.desc()).filter(models.Events.device_id == item.id))
+            action = {'current_action': action.scalar()}
+
+            mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+            mongo_info.pop('_id')
+            device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+            result.append(device)
+        return result
+
+    if params.person_id is not None:
+        events = await session.execute(
+            select(models.Events).order_by(models.Events.created_at.desc()).filter(
+                models.Events.responsible_person == params.person_id)
+        )
+        current_devices = []
+        for item in events.scalars():
+            if not current_devices.count(item.device_id):
+                current_devices.append(item.device_id)
+        postgre_res = []
+
+        for cd in current_devices:
+            device = await models.ActiveDevices.filter(id=cd).prefetch_related('device').first()
+            postgre_res.append(device)
+
+        for item in postgre_res:
+
+            active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
+            device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
+            device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('active_devices')
+
+            action = await session.execute(
+                select(models.Events.action).order_by(
+                    models.Events.created_at.desc()).filter(models.Events.device_id == item.id))
+            action = {'current_action': action.scalar()}
+
+            mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+            mongo_info.pop('_id')
+            device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+            result.append(device)
+        return result
+
+    if params.action is not None:
+        events = await session.execute(
+            select(models.Events).order_by(models.Events.created_at.desc()).filter(
+                models.Events.action == params.action)
+        )
+        current_devices = []
+        for item in events.scalars():
+            if not current_devices.count(item.device_id):
+                current_devices.append(item.device_id)
+        postgre_res = []
+
+        for cd in current_devices:
+            device = await models.ActiveDevices.filter(id=cd).prefetch_related('device').first()
+            postgre_res.append(device)
+
+        for item in postgre_res:
+
+            active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
+            device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
+            device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('active_devices')
+
+            action = await session.execute(
+                select(models.Events.action).order_by(
+                    models.Events.created_at.desc()).filter(models.Events.device_id == item.id))
+            action = {'current_action': action.scalar()}
+
+            mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+            mongo_info.pop('_id')
+            device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+            result.append(device)
+        return result
+
+    return result
 
 
 @router.get('/categories')
-async def get_avaiable_categories():
+async def get_available_categories():
+
+    all_categories = await models.DevicesPool.all().distinct().values('category')
+    available_categories = []
+    for category in all_categories:
+        device = await models.ActiveDevices.filter(device__category=category['category']).first()
+        if device is not None:
+            available_categories.append(category['category'])
+
+    return available_categories
+
+
+@router.get('/specifications')
+async def get_avaiable_specifications():
     device_pool_ids = await models.ActiveDevices.all().distinct().values('device_id')
     if device_pool_ids is None:
         return None
@@ -60,17 +194,19 @@ async def get_avaiable_categories():
 
 
 @router.get('/reposponsible_persons')
-async def get_reponsible_presons():
-    return 'Not implemented'
+async def get_reponsible_presons(session: AsyncSession = Depends(get_session)):
+    responsibles = await session.execute(
+        select(models.Events.responsible_person).order_by(
+            models.Events.created_at.desc()).distinct()
+    )
+    return [i for i in responsibles.scalars()]
 
 
 @router.get('/actions')
 async def get_status(session: AsyncSession = Depends(get_session)):
-    query = select(models.Events.action).distinct(models.Events.action)
+    query = select(models.Events.action).distinct('action')
     result: ChunkedIteratorResult = await session.execute(query)
-    if result.scalar() is None:
-        return []
-    return 'Not implemented'
+    return [i for i in result.scalars()]
 
 
 @router.get('/places')
@@ -88,51 +224,124 @@ async def add_device(device: models.ActiveDevicesPydanticPost,
                      current_user: Users = Depends(get_current_user)):
     async with in_transaction():
 
-        if Users.filter(id=responsible_person).first() is None:
+        if await Users.filter(id=responsible_person).first() is None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail='Responsible not found')
 
         click_object = {
             'id': str(uuid4()),
-            'device_id': str(device.device_id),
+            'device_id': str(uuid4()),
             'responsible_person': responsible_person,
             'action': 'REGISTRED',
             'created_by': str(current_user.id)
         }
         await session.execute(models.Events.__table__.insert(), click_object)
         device = device.dict()
-        device['id'] = click_object['id']
+        device['id'] = click_object['device_id']
         model = await models.ActiveDevices.create(**device)
 
     return model
 
 
-@router.put('/device/{id}')
+@router.put('/device/{id}', dependencies=[Depends(check_device_is_exists)])
 async def update_device(id: str, device: models.ActiveDevicesPydanticPost):
-    if await models.ActiveDevices.filter(id=id).first() is None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Device is not found')
-
     async with in_transaction():
         await models.ActiveDevices.filter(id=id).update(**device.dict())
     return await models.ActiveDevices.filter(id=id).first()
 
 
-@router.get('/device/{id}', response_model=models.ActiveDevicesPydanticGet)
+@router.patch('/device/{id}', dependencies=[Depends(check_device_is_exists)])
+async def apply_new_action(id: UUID,
+                           action: str,
+                           session: AsyncSession = Depends(get_session),
+                           current_user: Users = Depends(get_current_user)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.device_id == id)
+
+    events = await session.execute(query)
+    event = events.scalar()
+
+    click_object = {
+        'id': str(uuid4()),
+        'device_id': id,
+        'responsible_person': event.responsible_person,
+        'action': action.upper(),
+        'created_by': str(current_user.id)
+    }
+    await session.execute(models.Events.__table__.insert(), click_object)
+
+
+@router.get('/device/{id}',
+            dependencies=[Depends(check_device_is_exists)],
+            response_model=models.ActiveDevicesPydanticGet)
 async def get_device(id: str):
     return await models.ActiveDevices.filter(id=id).prefetch_related('device').first()
 
 
-@router.get('/device/{id}/ammortization')
-async def calc_ammortization(id: str):
+@router.get('/device/{id}/ammortization',
+            dependencies=[Depends(check_device_is_exists)])
+async def calc_ammortization(id: str,
+                             session: AsyncSession = Depends(get_session)):
 
-    return 'Not implemented'
+    query = select(models.Events).order_by(
+        models.Events.created_at.asc()
+    ).filter(models.Events.device_id == id)
+
+    events = await session.execute(query)
+    first_appear = events.scalar()
+
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.device_id == id)
+
+    events = await session.execute(query)
+    last_appear = events.scalar()
+    months_in_use = diff_month(last_appear.created_at, first_appear.created_at)
+
+    device = await models.ActiveDevices.filter(id=id).prefetch_related('device').first()
+    device_pool: models.DevicesPool = device.device
+    device_pool
+
+    return service.calc_amortization(device_pool, months_in_use)
 
 
-@router.get('/device/{id}/time_in_use')
-async def calc_time_in_use(id: str):
-    return 'Not implemented'
+@router.get('/device/{id}/time_in_use',
+            dependencies=[Depends(check_device_is_exists)])
+async def calc_time_in_use(id: str,
+                           session: AsyncSession = Depends(get_session)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.asc()
+    ).filter(models.Events.device_id == id)
+
+    events = await session.execute(query)
+    first_appear = events.scalar()
+
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.device_id == id)
+
+    events = await session.execute(query)
+    last_appear = events.scalar()
+    return last_appear.created_at - first_appear.created_at
 
 
-@router.get('/device/{id}/remaining_resource_until_check')
-async def calc_remaining_time(id: str):
-    return 'Not implemented'
+@router.get('/device/{id}/remaining_resource_until_check',
+            dependencies=[Depends(check_device_is_exists)])
+async def calc_remaining_time(id: str,
+                              session: AsyncSession = Depends(get_session)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.device_id == id and
+             (models.Events.action == 'CHECKED' or models.Events.action == 'REGISTRED'))
+    events = await session.execute(query)
+    events = events.scalar()
+    last_check = events.created_at
+
+    device = await get_device(events.device_id)
+    device = device.device
+
+    expire = last_check + timedelta(days=device.check_intervals)
+
+    remaining_time = expire - datetime.datetime.now()
+    return round(remaining_time.total_seconds())
