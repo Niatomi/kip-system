@@ -37,7 +37,7 @@ async def sign_in(user_credentials: OAuth2PasswordRequestForm = Depends()):
     return user_token
 
 
-@router.post('/sign_up')
+@router.post('/sign_up', include_in_schema=False)
 async def sign_up(sign_up_user: UserCredentials):
 
     user = await Users.filter(Q(username=sign_up_user.username) |
