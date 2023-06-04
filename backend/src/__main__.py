@@ -1,3 +1,4 @@
+import subprocess
 from src.devices.device_pool.router import router as device_pool_router
 from src.models import Users
 from src.database import init_db
@@ -13,7 +14,9 @@ from fastapi_pagination import add_pagination
 
 from src.auth.router import router as auth_router
 from src.devices.devices_in_use.router import router as active_devices_router
+from src.users.router import router as users_router
 import sys
+
 
 app = FastAPI(
     title="КИП",
@@ -28,6 +31,8 @@ app.include_router(device_pool_router,
                    prefix=api_config.api_version_path)
 app.include_router(router=active_devices_router,
                    prefix=api_config.api_version_path)
+app.include_router(router=users_router,
+                   prefix=api_config.api_version_path)
 
 
 origins = [middleware_config.cors_hosts]
@@ -35,7 +40,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["POST", "GET", "DELETE", 'PUT'],
+    allow_methods=["POST", "GET", "DELETE", 'PUT', 'PATCH'],
     allow_headers=["*"],
 )
 
@@ -45,6 +50,9 @@ add_pagination(app)
 
 @app.on_event("startup")
 async def startup_event():
+    subprocess.run(["aerich", "migrate"])
+    subprocess.run(["alembic", "upgrade", "head"])
+
     try:
         await Users.first()
     except Exception:
