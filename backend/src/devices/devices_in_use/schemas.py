@@ -1,26 +1,26 @@
-from pydantic import BaseModel, validator
+from uuid import UUID
+from pydantic import BaseModel
 from typing import Optional
+from ..models import ActiveDevicesPydanticGet, DevicePoolFullInfoGet
+from typing import List
 
 
-class ModufiedBaseModel(BaseModel):
+class ModifiedBaseModel(BaseModel):
 
     class Config:
         orm_mode = True
 
 
-class GetParams(ModufiedBaseModel):
+class DeviceInUseOut(ModifiedBaseModel,
+                     ActiveDevicesPydanticGet,
+                     DevicePoolFullInfoGet):
+    description: str
+    specifications: List[dict]
+    current_action: str
+
+
+class GetParams(ModifiedBaseModel):
     category: Optional[str]
-    preson_id: Optional[str]
+    person_id: Optional[UUID]
     action: Optional[str]
     place: Optional[str]
-
-    @validator("category")  # validates all fields
-    def validate_if_float(cls, value):
-
-        if (cls.category is None and
-            cls.preson_id is None and
-            cls.status is None and
-                cls.place is None):
-            raise ValueError('At least one param required')
-
-        return value
