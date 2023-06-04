@@ -65,6 +65,56 @@ async def admin_client():
         yield client
 
 
+@pytest.fixture(scope="session")
+async def worker_client():
+    async with AsyncClient(app=app, base_url="http://test/v1") as client:
+
+        admin = {
+            "username": "worker",
+            "first_name": "worker",
+            "second_name": "worker",
+            "third_name": "worker",
+            "full_name": "worker",
+            "email": "worker@example.com",
+            "password": "worker",
+        }
+        admin_credentials = {
+            'username': 'worker',
+            'password': 'worker'
+        }
+        r = await client.post("/auth/sign_up", json=admin)
+        await Users.filter(username='admin').update(role=Roles.admin)
+        r = await client.post("/auth/sign_in", data=admin_credentials)
+        token_scheme = UserToken(**r.json())
+        client.headers = {"Authorization": f"Bearer {token_scheme.access_token}"}
+        yield client
+
+
+@pytest.fixture(scope="session")
+async def chief_client():
+    async with AsyncClient(app=app, base_url="http://test/v1") as client:
+
+        admin = {
+            "username": "chief",
+            "first_name": "chief",
+            "second_name": "chief",
+            "third_name": "chief",
+            "full_name": "chief",
+            "email": "chief@example.com",
+            "password": "chief",
+        }
+        admin_credentials = {
+            'username': 'chief',
+            'password': 'chief'
+        }
+        r = await client.post("/auth/sign_up", json=admin)
+        await Users.filter(username='admin').update(role=Roles.admin)
+        r = await client.post("/auth/sign_in", data=admin_credentials)
+        token_scheme = UserToken(**r.json())
+        client.headers = {"Authorization": f"Bearer {token_scheme.access_token}"}
+        yield client
+
+
 @pytest.fixture(scope="session", autouse=True)
 async def initialize_tests():
     await init()
@@ -76,7 +126,6 @@ async def initialize_tests():
 @pytest.fixture(scope="session")
 def event_loop():
     """Overrides pytest default function scoped event loop"""
-    policy = asyncio.get_event_loop_policy()
-    loop = policy.new_event_loop()
+    loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
