@@ -42,7 +42,7 @@ async def get_device_by_params(
     if params.dict(exclude_none=True) == {}:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail='At least one params required')
-    return await models.DevicesPool.filter(Q(*params.generate_exporession(),
+    return await models.DevicesPool.filter(Q(*params.generate_expression(),
                                              join_type='OR')).first()
 
 
@@ -58,6 +58,7 @@ async def get_device_by_id(device_id: str):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail='Specs not found. Notify us please about this request')
     pg_dev = await models.DevicePoolFullInfo.from_tortoise_orm(pg_device)
+    mongo_device.pop('_id')
     return schemas.DevicePoolGet(**pg_dev.dict(), **mongo_device)
 
 
