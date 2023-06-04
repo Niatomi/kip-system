@@ -55,6 +55,21 @@ async def device_id_1(admin_client_with_devices_in_pool: AsyncClient):
     return r.json()['id']
 
 
+@pytest.fixture(scope='session')
+async def responsible_person(admin_client_with_devices_in_pool: AsyncClient):
+    person = {
+        "username": "responsible",
+        "first_name": "responsible",
+        "second_name": "responsible",
+        "third_name": "responsible",
+        "full_name": "responsible",
+        "email": "responsible@responsible.com",
+        "password": "responsible"
+    }
+    await admin_client_with_devices_in_pool.post('/auth/sign_up',
+                                                 json=person)
+
+
 @pytest.fixture(scope="session")
 async def device_id_2(admin_client_with_devices_in_pool: AsyncClient):
     r = await admin_client_with_devices_in_pool.get(
