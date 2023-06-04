@@ -1,18 +1,17 @@
-"""add_fields_on_events
+"""initial_commit
 
-Revision ID: 5fcf6c8f4531
-Revises: 31762d9f023b
-Create Date: 2023-06-01 14:11:08.882006
+Revision ID: 466e78fb47f1
+Revises: 
+Create Date: 2023-06-04 20:54:59.439657
 
 """
 from alembic import op
 import sqlalchemy as sa
 import clickhouse_sqlalchemy
 
-
 # revision identifiers, used by Alembic.
-revision = '5fcf6c8f4531'
-down_revision = '31762d9f023b'
+revision = '466e78fb47f1'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -22,7 +21,7 @@ def upgrade():
     op.add_column('events', sa.Column(
         'action', clickhouse_sqlalchemy.types.common.String(), nullable=False))
     op.add_column('events', sa.Column(
-        'created_ad', clickhouse_sqlalchemy.types.common.Date(), nullable=False))
+        'created_at', clickhouse_sqlalchemy.types.common.DateTime(), nullable=False))
     op.add_column('events', sa.Column(
         'created_by', clickhouse_sqlalchemy.types.common.UUID(), nullable=False))
     op.add_column('events', sa.Column(
@@ -37,6 +36,6 @@ def downgrade():
     op.drop_column('events', 'responsible_person')
     op.drop_column('events', 'device_id')
     op.drop_column('events', 'created_by')
-    op.drop_column('events', 'created_ad')
+    op.drop_column('events', 'created_at')
     op.drop_column('events', 'action')
     # ### end Alembic commands ###
