@@ -14,7 +14,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 mongo_url = 'mongodb://' + \
     f'{mongo_db_config.mongo_username}:{mongo_db_config.mongo_password}@' + \
-    f'localhost:27017/{mongo_db_config.database_name}?retryWrites=true&w=majority'
+    f'{mongo_db_config.mongo_db_host}:27017/{mongo_db_config.database_name}?retryWrites=true&w=majority'
 
 client = AsyncIOMotorClient(mongo_url)
 mongo_db = client[f'{mongo_db_config.database_name}']
