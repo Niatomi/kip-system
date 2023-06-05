@@ -1,6 +1,8 @@
-import subprocess
+from .api_env.runner import run
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.database import get_session
+from fastapi import Depends
 from src.devices.device_pool.router import router as device_pool_router
-from src.models import Users
 from src.database import init_db
 from fastapi import FastAPI
 import uvicorn
@@ -15,7 +17,6 @@ from fastapi_pagination import add_pagination
 from src.auth.router import router as auth_router
 from src.devices.devices_in_use.router import router as active_devices_router
 from src.users.router import router as users_router
-import sys
 
 
 app = FastAPI(
@@ -49,14 +50,12 @@ add_pagination(app)
 
 
 @app.on_event("startup")
-async def startup_event():
-    subprocess.run(["aerich", "migrate"])
-    subprocess.run(["alembic", "upgrade", "head"])
+async def startup_event(session: AsyncSession = Depends()):
+    s = get_session()
+    s = await s.__anext__()
 
-    try:
-        await Users.first()
-    except Exception:
-        sys.exit(-2)
+    if api_config.api_env == 'pre_prod':
+        await run(s)
 
 
 @app.get(f'{api_config.api_version_path}/ping',
