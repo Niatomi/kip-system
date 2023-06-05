@@ -13,7 +13,7 @@ web_concurrency_str = os.getenv("WEB_CONCURRENCY", None)
 
 cores = multiprocessing.cpu_count()
 workers_per_core = int(workers_per_core_str)
-default_web_concurrency = workers_per_core * cores + 1
+default_web_concurrency = workers_per_core * cores - 6
 
 if web_concurrency_str:
     web_concurrency = int(web_concurrency_str)
