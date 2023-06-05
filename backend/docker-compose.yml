@@ -5,16 +5,20 @@ services:
   #   container_name: api
   #   restart: always
   #   env_file:
-  #     - .env
+  #     - .env.docker
   #   build:
   #     context: .
   #     dockerfile: Dockerfile.prod
-  #   volumes:
-  #     - ./:/src
   #   ports:
   #     - "8000:8000"
   #   depends_on:
   #     - postgres
+  #     - mongodb
+  #     - clickhouse
+  #   networks:
+  #     - postgres
+  #     - mongodb_net
+  #     - clickhouse-network
 
   # nginx:
   #   build: ./docker/nginx
@@ -25,9 +29,8 @@ services:
   #   restart: always
   #   depends_on:
   #     - api
-
+ 
   postgres:
-    container_name: postgres-for-kip
     image: postgres:15.2
     environment:
       POSTGRES_USER: "postgres"
@@ -110,6 +113,7 @@ services:
       - local_dbeaver:/var/cloudbeaver/workspace:/opt/cloudbeaver/workspace 
     networks:
       - clickhouse-network
+      
  
 
 volumes:
@@ -127,10 +131,6 @@ networks:
     driver: bridge
     ipam:
       driver: default
-  # default:
-  #   external: true
-  #   name: app_main
-
   clickhouse-network:
     driver: bridge
     ipam:
