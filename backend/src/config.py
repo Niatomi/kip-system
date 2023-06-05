@@ -35,6 +35,7 @@ class AuthConfig(SettingsBase):
 class ApiConfig(SettingsBase):
     api_version_path: str
     api_version: str
+    api_env: str
     is_dev: bool = False
 
 
@@ -46,6 +47,7 @@ class NetworkConfig(SettingsBase):
 class MongoDbConfig(SettingsBase):
     mongo_username: str
     mongo_password: str
+    mongo_db_host: str
     database_name: str = 'kip_system_db'
     db_collection: str = 'device_description'
 
