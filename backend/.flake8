@@ -11,4 +11,5 @@ exclude =
     ./venv/*
     ./src/declarative_tables.py
     ./migrations/models/*
+    ./src/api_env/*
 ignore = E203,W503,F405,W504
