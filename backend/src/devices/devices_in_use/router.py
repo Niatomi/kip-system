@@ -51,6 +51,7 @@ async def get_devices_by_params_in_pages(
             active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
             device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
             device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('id')
             device_pool_info.pop('active_devices')
 
             action = await session.execute(
@@ -61,6 +62,7 @@ async def get_devices_by_params_in_pages(
             mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
             mongo_info.pop('_id')
             device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+
             result.append(device)
         return result
 
@@ -72,6 +74,7 @@ async def get_devices_by_params_in_pages(
             active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
             device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
             device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('id')
             device_pool_info.pop('active_devices')
 
             action = await session.execute(
@@ -105,6 +108,7 @@ async def get_devices_by_params_in_pages(
             active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
             device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
             device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('id')
             device_pool_info.pop('active_devices')
 
             action = await session.execute(
@@ -138,6 +142,7 @@ async def get_devices_by_params_in_pages(
             active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
             device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
             device_pool_info = device_pool_info.dict()
+            device_pool_info.pop('id')
             device_pool_info.pop('active_devices')
 
             action = await session.execute(
@@ -148,7 +153,8 @@ async def get_devices_by_params_in_pages(
             mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
             mongo_info.pop('_id')
             device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
-            result.append(device)
+            if action['current_action'] == params.action:
+                result.append(device)
         return result
 
     return result

@@ -98,7 +98,6 @@ async def add_devices():
                 jsonable_encoder(device['device_specs'])
             )
             device_info['mongo_id'] = new_device_info.inserted_id
-            print(device_info)
             await models.DevicesPool.filter(name=device_info.pop('name')).update(**device_info)
             device['device_info']['id'] = db_dev.id
     return devices

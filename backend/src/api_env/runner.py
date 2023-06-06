@@ -8,5 +8,5 @@ from sqlalchemy.ext.asyncio import AsyncSession
 async def run(session: AsyncSession):
     admin, chief, worker = await init_users()
     devices = await add_devices()
-    await add_active_devices(admin, chief, worker, devices, session)
+    devices = await add_active_devices(admin, chief, worker, devices, session)
     await add_some_records(admin, chief, worker, devices, session)
