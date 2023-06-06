@@ -16,10 +16,10 @@
 
     <div class="auth-page-container">
       <h2>Вход</h2>
-      <form action="" class="input-container">
-        <input type="text" placeholder="Логин" />
-        <input type="text" placeholder="Пароль" />
-        <button>Войти</button>
+      <form @submit.prevent="signIn" class="input-container" >
+        <input type="text" placeholder="Логин" v-model="login"/>
+        <input type="password" placeholder="Пароль" v-model="password"/>
+        <button type="submit">Войти</button>
       </form>
     </div>
     <router-link to="/">
@@ -29,8 +29,39 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
+import { isProxy, toRaw } from 'vue';
 export default {
   name: "AuthPage",
+  data() {
+    return {
+      login: '',
+      password: '',
+      data: {}
+    }
+  },
+  methods: {
+    ...mapActions([
+      'SET_LOGIN'
+    ]),
+    signIn(values) {
+      this.data = {
+        'username': this.login,
+        'password': this.password,
+        'grant_type': 'password',
+        'scope': '',
+        'client_id': '',
+        'client_secret': '' 
+      }
+      this.SET_LOGIN(toRaw(this.data))
+      .then((response) => {
+        console.log(response);
+      })
+      this.password = ''
+      this.login = ''
+      this.data = {}
+    }
+  }
 };
 </script>
 

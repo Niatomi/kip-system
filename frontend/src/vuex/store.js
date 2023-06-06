@@ -11,6 +11,7 @@ let store = createStore({
   state: {
     products: [],
     cart: [],
+    accessHeader: {}
   },
   mutations,
   actions: const_actions,
