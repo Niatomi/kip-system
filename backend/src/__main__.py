@@ -37,7 +37,7 @@ app.include_router(router=users_router,
                    prefix=api_config.api_version_path)
 
 
-origins = [middleware_config.cors_hosts]
+origins = middleware_config.cors_hosts
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
