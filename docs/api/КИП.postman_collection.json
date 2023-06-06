@@ -1,0 +1,3437 @@
+{
+	"info": {
+		"_postman_id": "6728a987-328c-4f06-bdde-a45e1ff0b686",
+		"name": "КИП",
+		"description": "API для приложения учёта КИП процессов в геофизике",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18389033",
+		"_collection_link": "https://www.postman.com/planetary-meadow-799952/workspace/kip-system-api/collection/18389033-6728a987-328c-4f06-bdde-a45e1ff0b686?action=share&creator=18389033&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "{user_id}",
+							"item": [
+								{
+									"name": "Get User By Id",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/:user_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												":user_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "<uuid>"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/:user_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														":user_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "user_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"username\": \"<string>\",\n  \"email\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"modified_at\": \"<dateTime>\",\n  \"full_name\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"first_name\": \"<string>\",\n  \"second_name\": \"<string>\",\n  \"third_name\": \"<string>\",\n  \"chief_id\": \"<uuid>\",\n  \"role\": \"WORKER\"\n}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/:user_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														":user_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "user_id"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "user",
+							"item": [
+								{
+									"name": "Get User By Params",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/user?user_id=<uuid>&username=<string>&email=<email>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"user"
+											],
+											"query": [
+												{
+													"key": "user_id",
+													"value": "<uuid>"
+												},
+												{
+													"key": "username",
+													"value": "<string>"
+												},
+												{
+													"key": "email",
+													"value": "<email>"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/user?user_id=<uuid>&username=<string>&email=<email>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														"user"
+													],
+													"query": [
+														{
+															"key": "user_id",
+															"value": "<uuid>"
+														},
+														{
+															"key": "username",
+															"value": "<string>"
+														},
+														{
+															"key": "email",
+															"value": "<email>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"username\": \"<string>\",\n  \"email\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"modified_at\": \"<dateTime>\",\n  \"full_name\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"first_name\": \"<string>\",\n  \"second_name\": \"<string>\",\n  \"third_name\": \"<string>\",\n  \"chief_id\": \"<uuid>\",\n  \"role\": \"WORKER\"\n}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/user?user_id=<uuid>&username=<string>&email=<email>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														"user"
+													],
+													"query": [
+														{
+															"key": "user_id",
+															"value": "<uuid>"
+														},
+														{
+															"key": "username",
+															"value": "<string>"
+														},
+														{
+															"key": "email",
+															"value": "<email>"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "Add User",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"first_name\": \"<string>\",\n  \"second_name\": \"<string>\",\n  \"third_name\": \"<string>\",\n  \"role\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"user"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"first_name\": \"<string>\",\n  \"second_name\": \"<string>\",\n  \"third_name\": \"<string>\",\n  \"role\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/user",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														"user"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<email>\",\n  \"first_name\": \"<string>\",\n  \"second_name\": \"<string>\",\n  \"third_name\": \"<string>\",\n  \"role\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/user",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														"user"
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "roles",
+							"item": [
+								{
+									"name": "Get Roles",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/roles",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"roles"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/users/roles",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"users",
+														"roles"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get Users Pages",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": "/v1/auth/sign_in",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/users/?role=<string>&page=1&size=50",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "<string>"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "50"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/?role=<string>&page=1&size=50",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												""
+											],
+											"query": [
+												{
+													"key": "role",
+													"value": "<string>"
+												},
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "size",
+													"value": "50"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"items\": [\n    {\n      \"username\": \"<string>\",\n      \"email\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"modified_at\": \"<dateTime>\",\n      \"full_name\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"first_name\": \"<string>\",\n      \"second_name\": \"<string>\",\n      \"third_name\": \"<string>\",\n      \"chief_id\": \"<uuid>\",\n      \"role\": \"WORKER\"\n    },\n    {\n      \"username\": \"<string>\",\n      \"email\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"modified_at\": \"<dateTime>\",\n      \"full_name\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"first_name\": \"<string>\",\n      \"second_name\": \"<string>\",\n      \"third_name\": \"<string>\",\n      \"chief_id\": \"<uuid>\",\n      \"role\": \"WORKER\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"size\": \"<integer>\",\n  \"pages\": \"<integer>\"\n}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/users/?role=<string>&page=1&size=50",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												""
+											],
+											"query": [
+												{
+													"key": "role",
+													"value": "<string>"
+												},
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "size",
+													"value": "50"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "devices_in_use",
+					"item": [
+						{
+							"name": "specifications",
+							"item": [
+								{
+									"name": "Get Avaiable Specifications",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/specifications",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												"specifications"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/specifications",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"specifications"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "reposponsible_persons",
+							"item": [
+								{
+									"name": "Get Reponsible Presons",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/reposponsible_persons",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												"reposponsible_persons"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/reposponsible_persons",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"reposponsible_persons"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "places",
+							"item": [
+								{
+									"name": "Get Places Of Installation",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/places",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												"places"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/places",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"places"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "device",
+							"item": [
+								{
+									"name": "{id}",
+									"item": [
+										{
+											"name": "time_in_use",
+											"item": [
+												{
+													"name": "Calc Time In Use",
+													"request": {
+														"auth": {
+															"type": "oauth2",
+															"oauth2": [
+																{
+																	"key": "accessTokenUrl",
+																	"value": "/v1/auth/sign_in",
+																	"type": "string"
+																},
+																{
+																	"key": "grant_type",
+																	"value": "password_credentials",
+																	"type": "string"
+																}
+															]
+														},
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/time_in_use",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id",
+																"time_in_use"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "Id"
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Successful Response",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/time_in_use",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"time_in_use"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Validation Error",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/time_in_use",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"time_in_use"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+															"code": 422,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "remaining_resource_until_check",
+											"item": [
+												{
+													"name": "Calc Remaining Time",
+													"request": {
+														"auth": {
+															"type": "oauth2",
+															"oauth2": [
+																{
+																	"key": "accessTokenUrl",
+																	"value": "/v1/auth/sign_in",
+																	"type": "string"
+																},
+																{
+																	"key": "grant_type",
+																	"value": "password_credentials",
+																	"type": "string"
+																}
+															]
+														},
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/remaining_resource_until_check",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id",
+																"remaining_resource_until_check"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "Id"
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Successful Response",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/remaining_resource_until_check",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"remaining_resource_until_check"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Validation Error",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/remaining_resource_until_check",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"remaining_resource_until_check"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+															"code": 422,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "ammortization",
+											"item": [
+												{
+													"name": "Calc Ammortization",
+													"request": {
+														"auth": {
+															"type": "oauth2",
+															"oauth2": [
+																{
+																	"key": "accessTokenUrl",
+																	"value": "/v1/auth/sign_in",
+																	"type": "string"
+																},
+																{
+																	"key": "grant_type",
+																	"value": "password_credentials",
+																	"type": "string"
+																}
+															]
+														},
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/ammortization",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id",
+																"ammortization"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "Id"
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Successful Response",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/ammortization",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"ammortization"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Validation Error",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	},
+																	{
+																		"description": "Added as a part of security scheme: oauth2",
+																		"key": "Authorization",
+																		"value": "<token>"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/v1/devices_in_use/device/:id/ammortization",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"v1",
+																		"devices_in_use",
+																		"device",
+																		":id",
+																		"ammortization"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+															"code": 422,
+															"_postman_previewlanguage": "json",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "application/json"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "Get Device",
+											"request": {
+												"auth": {
+													"type": "oauth2",
+													"oauth2": [
+														{
+															"key": "accessTokenUrl",
+															"value": "/v1/auth/sign_in",
+															"type": "string"
+														},
+														{
+															"key": "grant_type",
+															"value": "password_credentials",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"device",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "Id"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Successful Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\",\n  \"id\": \"<uuid>\"\n}"
+												},
+												{
+													"name": "Validation Error",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+													"code": 422,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+												}
+											]
+										},
+										{
+											"name": "Update Device",
+											"request": {
+												"auth": {
+													"type": "oauth2",
+													"oauth2": [
+														{
+															"key": "accessTokenUrl",
+															"value": "/v1/auth/sign_in",
+															"type": "string"
+														},
+														{
+															"key": "grant_type",
+															"value": "password_credentials",
+															"type": "string"
+														}
+													]
+												},
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"device",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "Id"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Successful Response",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Validation Error",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+													"code": 422,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+												}
+											]
+										},
+										{
+											"name": "Apply New Action",
+											"request": {
+												"auth": {
+													"type": "oauth2",
+													"oauth2": [
+														{
+															"key": "accessTokenUrl",
+															"value": "/v1/auth/sign_in",
+															"type": "string"
+														},
+														{
+															"key": "grant_type",
+															"value": "password_credentials",
+															"type": "string"
+														}
+													]
+												},
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/device/:id?action=<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"device",
+														":id"
+													],
+													"query": [
+														{
+															"key": "action",
+															"value": "<string>",
+															"description": "(Required) "
+														}
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "Id"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Successful Response",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id?action=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"query": [
+																{
+																	"key": "action",
+																	"value": "<string>",
+																	"description": "(Required) "
+																}
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Validation Error",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/devices_in_use/device/:id?action=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"devices_in_use",
+																"device",
+																":id"
+															],
+															"query": [
+																{
+																	"key": "action",
+																	"value": "<string>",
+																	"description": "(Required) "
+																}
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+													"code": 422,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "categories",
+							"item": [
+								{
+									"name": "Get Available Categories",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/categories",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												"categories"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/categories",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"categories"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "actions",
+							"item": [
+								{
+									"name": "Get Status",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/actions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												"actions"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/devices_in_use/actions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"devices_in_use",
+														"actions"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get Devices By Params In Pages",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": "/v1/auth/sign_in",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/devices_in_use/?category=<string>&person_id=<uuid>&action=<string>&place=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"devices_in_use",
+										""
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "<string>"
+										},
+										{
+											"key": "person_id",
+											"value": "<uuid>"
+										},
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "place",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/?category=<string>&person_id=<uuid>&action=<string>&place=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												""
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "<string>"
+												},
+												{
+													"key": "person_id",
+													"value": "<uuid>"
+												},
+												{
+													"key": "action",
+													"value": "<string>"
+												},
+												{
+													"key": "place",
+													"value": "<string>"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"mongo_id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"invent_number\": \"<string>\",\n    \"serial_number\": \"<string>\",\n    \"place\": \"<string>\",\n    \"device_id\": \"<uuid>\",\n    \"description\": \"<string>\",\n    \"specifications\": [],\n    \"current_action\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"resource_of_useful_usage\": 5\n  },\n  {\n    \"mongo_id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"invent_number\": \"<string>\",\n    \"serial_number\": \"<string>\",\n    \"place\": \"<string>\",\n    \"device_id\": \"<uuid>\",\n    \"description\": \"<string>\",\n    \"specifications\": [],\n    \"current_action\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"resource_of_useful_usage\": 5\n  }\n]"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/?category=<string>&person_id=<uuid>&action=<string>&place=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												""
+											],
+											"query": [
+												{
+													"key": "category",
+													"value": "<string>"
+												},
+												{
+													"key": "person_id",
+													"value": "<uuid>"
+												},
+												{
+													"key": "action",
+													"value": "<string>"
+												},
+												{
+													"key": "place",
+													"value": "<string>"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add Device",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": "/v1/auth/sign_in",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/devices_in_use/?responsible_person=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"devices_in_use",
+										""
+									],
+									"query": [
+										{
+											"key": "responsible_person",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/?responsible_person=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												""
+											],
+											"query": [
+												{
+													"key": "responsible_person",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"invent_number\": \"<string>\",\n  \"serial_number\": \"<string>\",\n  \"place\": \"<string>\",\n  \"device_id\": \"<uuid>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/devices_in_use/?responsible_person=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"devices_in_use",
+												""
+											],
+											"query": [
+												{
+													"key": "responsible_person",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "device_pool",
+					"item": [
+						{
+							"name": "{device_id}",
+							"item": [
+								{
+									"name": "Update Device By Id",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  },\n  \"device_specs\": {\n    \"description\": \"<string>\",\n    \"specifications\": []\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/device_pool/:device_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"device_pool",
+												":device_id"
+											],
+											"variable": [
+												{
+													"key": "device_id",
+													"value": "Device Id"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  },\n  \"device_specs\": {\n    \"description\": \"<string>\",\n    \"specifications\": []\n  }\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/device_pool/:device_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"device_pool",
+														":device_id"
+													],
+													"variable": [
+														{
+															"key": "device_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  },\n  \"device_specs\": {\n    \"description\": \"<string>\",\n    \"specifications\": []\n  }\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/device_pool/:device_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"device_pool",
+														":device_id"
+													],
+													"variable": [
+														{
+															"key": "device_id"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "device",
+							"item": [
+								{
+									"name": "{device_id}",
+									"item": [
+										{
+											"name": "Get Device By Id",
+											"request": {
+												"auth": {
+													"type": "oauth2",
+													"oauth2": [
+														{
+															"key": "accessTokenUrl",
+															"value": "/v1/auth/sign_in",
+															"type": "string"
+														},
+														{
+															"key": "grant_type",
+															"value": "password_credentials",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/device_pool/device/:device_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"device_pool",
+														"device",
+														":device_id"
+													],
+													"variable": [
+														{
+															"key": "device_id",
+															"value": "<string>"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Successful Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/device_pool/device/:device_id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"device_pool",
+																"device",
+																":device_id"
+															],
+															"variable": [
+																{
+																	"key": "device_id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Validation Error",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: oauth2",
+																"key": "Authorization",
+																"value": "<token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/device_pool/device/:device_id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"device_pool",
+																"device",
+																":device_id"
+															],
+															"variable": [
+																{
+																	"key": "device_id"
+																}
+															]
+														}
+													},
+													"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+													"code": 422,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Get Device By Params",
+									"request": {
+										"auth": {
+											"type": "oauth2",
+											"oauth2": [
+												{
+													"key": "accessTokenUrl",
+													"value": "/v1/auth/sign_in",
+													"type": "string"
+												},
+												{
+													"key": "grant_type",
+													"value": "password_credentials",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/device_pool/device?name=<string>&category=<string>&price=<number>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"device_pool",
+												"device"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "<string>"
+												},
+												{
+													"key": "category",
+													"value": "<string>"
+												},
+												{
+													"key": "price",
+													"value": "<number>"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/device_pool/device?name=<string>&category=<string>&price=<number>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"device_pool",
+														"device"
+													],
+													"query": [
+														{
+															"key": "name",
+															"value": "<string>"
+														},
+														{
+															"key": "category",
+															"value": "<string>"
+														},
+														{
+															"key": "price",
+															"value": "<number>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: oauth2",
+														"key": "Authorization",
+														"value": "<token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/device_pool/device?name=<string>&category=<string>&price=<number>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"device_pool",
+														"device"
+													],
+													"query": [
+														{
+															"key": "name",
+															"value": "<string>"
+														},
+														{
+															"key": "category",
+															"value": "<string>"
+														},
+														{
+															"key": "price",
+															"value": "<number>"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Add Device Into Pool",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessTokenUrl",
+											"value": "/v1/auth/sign_in",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"device_specs\": {\n    \"description\": \"<string>\"\n  },\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/device_pool/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"device_pool",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"device_specs\": {\n    \"description\": \"<string>\"\n  },\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/device_pool/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"device_pool",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: oauth2",
+												"key": "Authorization",
+												"value": "<token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"device_specs\": {\n    \"description\": \"<string>\"\n  },\n  \"device_info\": {\n    \"name\": \"<string>\",\n    \"check_intervals\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"price\": \"<number>\",\n    \"resource\": \"<integer>\",\n    \"resource_of_useful_usage\": 5\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/device_pool/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"device_pool",
+												""
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "sign_in",
+							"item": [
+								{
+									"name": "Sign In",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "<string>",
+													"description": "(Required) "
+												},
+												{
+													"key": "password",
+													"value": "<string>",
+													"description": "(Required) "
+												},
+												{
+													"key": "grant_type",
+													"value": "password"
+												},
+												{
+													"key": "scope",
+													"value": ""
+												},
+												{
+													"key": "client_id",
+													"value": "<string>"
+												},
+												{
+													"key": "client_secret",
+													"value": "<string>"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/auth/sign_in",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"sign_in"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "password",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "grant_type",
+															"value": "password"
+														},
+														{
+															"key": "scope",
+															"value": ""
+														},
+														{
+															"key": "client_id",
+															"value": "<string>"
+														},
+														{
+															"key": "client_secret",
+															"value": "<string>"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/auth/sign_in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"auth",
+														"sign_in"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "password",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "grant_type",
+															"value": "password"
+														},
+														{
+															"key": "scope",
+															"value": ""
+														},
+														{
+															"key": "client_id",
+															"value": "<string>"
+														},
+														{
+															"key": "client_secret",
+															"value": "<string>"
+														}
+													]
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/auth/sign_in",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"auth",
+														"sign_in"
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "refresh_token",
+							"item": [
+								{
+									"name": "Refresh Token",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"access_token\": \"ACTUAL_TOKEN\",\n  \"token_type\": \"Bearer\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/auth/refresh_token",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"auth",
+												"refresh_token"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successful Response",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"access_token\": \"ACTUAL_TOKEN\",\n  \"token_type\": \"Bearer\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/auth/refresh_token",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"auth",
+														"refresh_token"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Validation Error",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"access_token\": \"ACTUAL_TOKEN\",\n  \"token_type\": \"Bearer\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/auth/refresh_token",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"auth",
+														"refresh_token"
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"loc\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"msg\": \"<string>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/"
+		}
+	]
+}
