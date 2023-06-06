@@ -1,34 +1,37 @@
 version: "3.1"
 services:
-  # api:
-  #   image: app_image
-  #   container_name: api
-  #   restart: always
-  #   env_file:
-  #     - .env.docker
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.prod
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - postgres
-  #     - mongodb
-  #     - clickhouse
-  #   networks:
-  #     - postgres
-  #     - mongodb_net
-  #     - clickhouse-network
+  api:
+    image: app_image
+    container_name: api
+    restart: always
+    env_file:
+      - .env.docker
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - mongodb
+      - clickhouse
+    networks:
+      - postgres
+      - mongodb_net
+      - clickhouse-network
+      - nginx
 
-  # nginx:
-  #   build: ./docker/nginx
-  #   container_name: nginx_server
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   restart: always
-  #   depends_on:
-  #     - api
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx_server
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    networks:
+      - nginx
+    depends_on:
+      - api
  
   postgres:
     image: postgres:15.2
@@ -126,6 +129,8 @@ volumes:
 
 networks:
   postgres:
+    driver: bridge
+  nginx:
     driver: bridge
   mongodb_net:
     driver: bridge

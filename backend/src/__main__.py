@@ -1,3 +1,4 @@
+from src.models import Users
 from .api_env.runner import run
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_session
@@ -54,7 +55,8 @@ async def startup_event(session: AsyncSession = Depends()):
     s = get_session()
     s = await s.__anext__()
 
-    if api_config.api_env == 'pre_prod':
+    u = await Users.first()
+    if u is None and api_config.api_env == 'pre_prod':
         await run(s)
 
 
