@@ -15,7 +15,6 @@ export default {
         })
     }, 
     GET_CURRENT_USER({commit, state}) {
-      console.log(state.accessHeader)
       return axios('http://localhost/v1/users/me', {
         method: "GET",
         headers: state.accessHeader

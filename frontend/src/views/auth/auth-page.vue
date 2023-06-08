@@ -58,7 +58,6 @@ export default {
       }
       this.SET_LOGIN(toRaw(this.data))
       .then((response) => {
-        console.log(response.status);
         if (response.code === "ERR_BAD_REQUEST") {
           this.error_msg = 'Пользователь не найден'
         };
