@@ -19,6 +19,9 @@
       <form @submit.prevent="signIn" class="input-container" >
         <input type="text" placeholder="Логин" v-model="login"/>
         <input type="password" placeholder="Пароль" v-model="password"/>
+        <div class="error-message" v-if="error_msg.length">
+          <p>{{ error_msg }}</p>
+        </div>
         <button type="submit">Войти</button>
       </form>
     </div>
@@ -37,7 +40,8 @@ export default {
     return {
       login: '',
       password: '',
-      data: {}
+      data: {},
+      error_msg: ''
     }
   },
   methods: {
@@ -51,11 +55,16 @@ export default {
         'grant_type': 'password',
         'scope': '',
         'client_id': '',
-        'client_secret': '' 
       }
       this.SET_LOGIN(toRaw(this.data))
       .then((response) => {
-        console.log(response);
+        console.log(response.status);
+        if (response.code === "ERR_BAD_REQUEST") {
+          this.error_msg = 'Пользователь не найден'
+        };
+        if (response.status === 200) {
+          this.$router.push('/main_page')
+        }
       })
       this.password = ''
       this.login = ''
@@ -82,7 +91,14 @@ h2 {
   flex-direction: column;
   align-items: center;
 }
+.error-message {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: rgb(150, 3, 3);
+}
 .auth-page-container {
+  min-width: 50vh;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
