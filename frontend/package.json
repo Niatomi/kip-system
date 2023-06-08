@@ -12,6 +12,7 @@
     "material-icons": "^1.13.7",
     "sass": "^1.62.1",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^4.0.3",
     "vuex": "^4.1.0"
   },
