@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-container" v-if="currentRouteName !== 'auth'">
+  <div class="navbar-container" v-if="!(currentRouteName === 'auth' || currentRouteName === '404Error')">
     <router-link to="/">
       <div class="logo-container">
         <img
