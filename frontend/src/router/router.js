@@ -3,6 +3,7 @@ import HomePage from "@/views/home/home-page";
 import AuthPage from "@/views/auth/auth-page";
 import JobPage from "@/views/home/job-page/job-page";
 import AboutPage from "@/views/home/about-page/about-page";
+import Error404Page from "@/views/404-page/404-error-page";
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
     name: "aboutPage",
     component: AboutPage,
   },
+  {
+    path: '/:pathMatch(.*)*', 
+    name: "404Error",
+    component: Error404Page,
+  },
+  
 ];
 
 const router = createRouter({
