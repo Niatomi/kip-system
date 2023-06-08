@@ -77,3 +77,8 @@ async def add_user(sign_up_user: schemas.UserCredentials,
 
     return JSONResponse(status_code=status.HTTP_201_CREATED,
                         content=None)
+
+
+@router.get('/users/me')
+async def get_current_user(user: Users = Depends(get_current_user)):
+    return user
