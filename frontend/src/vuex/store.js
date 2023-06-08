@@ -1,21 +1,16 @@
-import actions from "./actions/actions";
-import api_actions from "./actions/api_requests";
-import mutations from "./mutations/mutations";
-import getters from "./getters/getters";
-
-import { createStore, mapGetters } from "vuex";
-
-const const_actions = { ...actions, ...api_actions };
+import auth_module from "./authentication/auth_module";
+import device_pool_module from "./device_pool/device_pool_module";
+import devices_in_use_module from "./devices_in_use/actions_module_module";
+import users_module from "./users_module/users_module_module";
+import { createStore } from "vuex";
 
 let store = createStore({
-  state: {
-    products: [],
-    cart: [],
-    accessHeader: {}
-  },
-  mutations,
-  actions: const_actions,
-  getters,
+    modules: {
+        auth: auth_module,
+        device_pool: device_pool_module,
+        devices_in_use: devices_in_use_module,
+        users: users_module
+    }
 });
 
 export default store;
