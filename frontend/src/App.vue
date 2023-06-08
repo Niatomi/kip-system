@@ -4,11 +4,20 @@
 
 <script>
 import MainWrapper from "@/views/main-wrapper";
+import {mapActions, mapGetters} from 'vuex'
 export default {
   name: "App",
   components: {
     MainWrapper,
   },
+  methods: {
+    ...mapActions([
+      'SET_COOKIES',
+    ]),
+  },
+  mounted() {
+    this.SET_COOKIES()
+  }
 };
 </script>
 
