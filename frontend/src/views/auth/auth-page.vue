@@ -79,6 +79,7 @@ h2 {
 }
 .auth-wrapper {
   display: flex;
+  margin-top: 5vh;
   flex-direction: column;
   align-items: center;
 }
