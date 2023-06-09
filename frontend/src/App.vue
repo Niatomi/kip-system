@@ -1,14 +1,18 @@
 <template>
   <main-wrapper />
+  <CookieNotifier/>
 </template>
 
 <script>
 import MainWrapper from "@/views/main-wrapper";
 import {mapActions, mapGetters} from 'vuex'
+import CookieNotifier from '@/components/cookie-notifier/cookie-notifier'
+
 export default {
   name: "App",
   components: {
     MainWrapper,
+    CookieNotifier
   },
   methods: {
     ...mapActions([
