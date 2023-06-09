@@ -4,6 +4,7 @@ import AuthPage from "@/views/auth/auth-page";
 import JobPage from "@/views/home/job-page/job-page";
 import AboutPage from "@/views/home/about-page/about-page";
 import Error404Page from "@/views/404-page/404-error-page";
+import ChiefPage from "@/views/chief-page/chief-main-page";
 
 const routes = [
   {
@@ -31,7 +32,16 @@ const routes = [
     name: "404Error",
     component: Error404Page,
   },
-  
+  {
+    path: '/:pathMatch(.*)*', 
+    name: "404Error",
+    component: Error404Page,
+  },
+  {
+    path: '/chiefPage', 
+    name: "ChiefPage",
+    component: ChiefPage,
+  },
 ];
 
 const router = createRouter({
