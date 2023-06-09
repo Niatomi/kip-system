@@ -62,7 +62,7 @@ export default {
           this.error_msg = 'Пользователь не найден'
         };
         if (response.status === 200) {
-          this.$router.push('/main_page')
+          this.$router.push('/chiefPage')
         }
       })
       this.password = ''
