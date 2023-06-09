@@ -60,11 +60,11 @@ async def refresh_token(token_schema: auth_schemas.UserToken):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail='Bad token')
 
-    user_id = verify_access_token(
+    token_data = verify_access_token(
         token=token_schema.access_token,
         credentials_exception=credentials_exception)
 
     user_token = auth_schemas.UserToken()
     user_token.access_token = create_access_token({
-        "user_id": str(user_id)})
+        "user_id": str(token_data['user_id'])})
     return user_token
