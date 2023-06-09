@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
-    "material-icons": "^1.13.7",
+    "material-design-icons-iconfont": "^5.0.1",
     "sass": "^1.62.1",
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.3",
