@@ -1,3 +1,4 @@
+from src.models import UserOutPydantic
 from fastapi.responses import JSONResponse
 from tortoise.transactions import in_transaction
 from src.utils import check_user_is_not_worker
@@ -79,6 +80,7 @@ async def add_user(sign_up_user: schemas.UserCredentials,
                         content=None)
 
 
-@router.get('/users/me')
+@router.get('/me',
+            response_model=UserOutPydantic)
 async def get_current_user(user: Users = Depends(get_current_user)):
     return user
