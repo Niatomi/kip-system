@@ -83,7 +83,7 @@ export default {
   gap: 10px;
   flex-direction: column;
   align-items: center;
-  width: 100% - 5;
+  width: 100% - 3;
 }
 
 .btns {

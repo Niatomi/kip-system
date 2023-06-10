@@ -22,7 +22,7 @@ export default {
     padding-top: 10px;
     padding-bottom: 10px;
     height: fit-content;
-    width: 100% - 5;
+    width: 100%;
 }
 
 </style>
