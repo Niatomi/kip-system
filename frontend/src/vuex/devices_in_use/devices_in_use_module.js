@@ -7,11 +7,11 @@ import { createStore, mapGetters } from "vuex";
 
 const const_actions = { ...actions, ...api_actions };
 
-let auth_module = createStore({
+let devices_in_use_module = createStore({
   state: {},
   mutations,
   actions: const_actions,
   getters,
 });
 
-export default auth_module;
+export default devices_in_use_module;
