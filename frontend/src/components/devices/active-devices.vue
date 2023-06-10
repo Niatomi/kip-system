@@ -1,43 +1,80 @@
 <template>
-  <InfoFeed>
-    <div class="local-navbar">
-      <div class="btns">
-        <div class="btn btn__first">
-            <p>Все</p>
-        </div>
-        <div class="btn">
-            <p>Категория</p>
-        </div>
-        <div class="btn">
-            <p>Спецификация</p>
-        </div>
-        
-        <div class="btn">
-            <p>Статус</p>
-        </div>
-        <div class="btn">
-            <p>Место</p>
-        </div>
-        <div class="btn btn__last">
-            <p>Ответственный</p> 
+  <div class="device-active-container">
+
+    <InfoFeed>
+      <div class="local-navbar">
+        <div class="btns">
+          <LocalButton 
+            ref="Date.now()" 
+            :first="true"
+            @click="activeDeviceMenu='all'"
+            >Все</LocalButton>
+          <LocalButton 
+            ref="Date.now()" 
+            @click="activeDeviceMenu = 2"
+            >Категория</LocalButton>
+          <LocalButton 
+            ref="Date.now()" 
+            @click="activeDeviceMenu = 3"
+            >Спецификация</LocalButton>
+          <LocalButton 
+            ref="Date.now()" 
+            @click="activeDeviceMenu = 4"
+            >Статус</LocalButton>
+          <LocalButton 
+            ref="Date.now()" 
+            @click="activeDeviceMenu = 5"
+            >Место</LocalButton>
+          <LocalButton 
+            ref="Date.now()" 
+            :last="true"
+            @click="activeDeviceMenu = 6"
+            >Ответственный</LocalButton>
+            
         </div>
       </div>
-    </div>
-  </InfoFeed>
+    </InfoFeed>
+    <Transition name="fade-slide" appear>
+      <AllDevices v-if="activeDeviceMenu === 'all'"/>
+    </Transition>
+  </div>
 </template>
 
 <script>
 import InfoFeed from '@/components/info-feed/info-feed.vue'
+import LocalButton from '@/components/buttons/local-button'
+import AllDevices from './active-devices/all_devices'
 
 export default {
   name: 'ActiveDevices',
+  data() {
+    return {
+      activeDeviceMenu: ''
+    }
+  },
   components: {
-      InfoFeed
+      InfoFeed,
+      LocalButton,
+      AllDevices
+  },
+  methods: {
+    changeActiveMenu(event) {
+      this.activeDeviceMenu = event
+    }
   }
 }
 </script>
 
 <style lang="scss">
+.device-active-container {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  // flex-grow: 0;     /* do not grow   - initial value: 0 */
+  flex-direction: column;
+}
+
+
 .local-navbar {
   padding: 10px;
   margin-top: 10px;
@@ -56,34 +93,28 @@ export default {
   flex-direction: row;
 }
 
-.btn { 
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 1s ease, transform 1s ease-in-out;
+  transform: translateY(0px);
+}
 
-  color: $color8;
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
+}
 
-  background: $color6;
-  width: 100%;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-left: solid $color7;
-  
-  
-  &__first {
-    border-left: none;
-    border-radius: 20px 0 0 20px;
-  }
-  
-  &__last {
-    border-radius: 0 20px 20px 0;
-  }
-  
-  &:hover {
-    background: $color7
-  }
-  
-  
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 2s;
+  height: 100vh;
+}
+.fadeHeight-enter-from,
+.fadeHeight-leave-to
+{
+  opacity: 0;
+  max-height: 0px;
 }
 
 </style>
