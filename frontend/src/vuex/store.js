@@ -1,7 +1,7 @@
 import auth_module from "./authentication/auth_module";
 import device_pool_module from "./device_pool/device_pool_module";
-import devices_in_use_module from "./devices_in_use/actions_module_module";
-import users_module from "./users_module/users_module_module";
+import devices_in_use_module from "./devices_in_use/devices_in_use_module";
+import users_module from "./users/users_module";
 import { createStore } from "vuex";
 
 let store = createStore({
