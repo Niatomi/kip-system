@@ -28,19 +28,14 @@ const routes = [
     component: AboutPage,
   },
   {
-    path: '/:pathMatch(.*)*', 
-    name: "404Error",
-    component: Error404Page,
-  },
-  {
-    path: '/:pathMatch(.*)*', 
-    name: "404Error",
-    component: Error404Page,
-  },
-  {
     path: '/chiefPage', 
     name: "ChiefPage",
     component: ChiefPage,
+  },
+  {
+    path: '/:pathMatch(.*)*', 
+    name: "404Error",
+    component: Error404Page,
   },
 ];
 
