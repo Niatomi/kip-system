@@ -1,3 +1,6 @@
+from tortoise.expressions import Q
+from ..utils import get_mongo_id_by_spec
+from fastapi import Query
 from datetime import timedelta
 import datetime
 from .utils import diff_month
@@ -24,12 +27,27 @@ from src.database import get_session
 from src.utils import check_user_is_not_worker
 from . import schemas
 from ..utils import get_mongo_object_by_id
+from fastapi_pagination import Page
+from fastapi_pagination.ext.tortoise import paginate
+
 
 router = APIRouter(prefix='/devices_in_use',
                    dependencies=[Depends(check_user_is_not_worker)],
                    tags=['Devices In Use'])
 
 # Many devices
+
+
+@router.get('/pages',
+            response_model=Page[models.ActiveDevicesPydanticGet])
+async def get_device_in_pages():
+    return await paginate(models.ActiveDevices)
+
+
+@router.get('/search',
+            response_model=List[models.ActiveDevicesPydanticGet])
+async def find_by_name(name: str = Query()):
+    return await models.ActiveDevices.filter(device__name__contains=name).all()
 
 
 @router.get('/', response_model=List[schemas.DeviceInUseOut])
@@ -160,6 +178,35 @@ async def get_devices_by_params_in_pages(
     return result
 
 
+@router.get('/by_specification',
+            response_model=List[schemas.DeviceInUseOut])
+async def get_devices_by_specification(specifications: List[str] = Query(),
+                                       session: AsyncSession = Depends(get_session)):
+    mongo_ids = [await get_mongo_id_by_spec(spec) for spec in specifications]
+    exp = [Q(device__mongo_id=id) for id in mongo_ids]
+    postgre_res = await models.ActiveDevices.filter(Q(*exp, join_type='OR')).prefetch_related('device').all()
+    result = []
+    for item in postgre_res:
+
+        active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(item)
+        device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(item.device)
+        device_pool_info = device_pool_info.dict()
+        device_pool_info.pop('id')
+        device_pool_info.pop('active_devices')
+
+        action = await session.execute(
+            select(models.Events.action).order_by(
+                models.Events.created_at.desc()).filter(models.Events.device_id == item.id))
+        action = {'current_action': action.scalar()}
+
+        mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+        mongo_info.pop('_id')
+        device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+
+        result.append(device)
+    return result
+
+
 @router.get('/categories')
 async def get_available_categories():
 
@@ -280,9 +327,25 @@ async def apply_new_action(id: UUID,
 
 @router.get('/device/{id}',
             dependencies=[Depends(check_device_is_exists)],
-            response_model=models.ActiveDevicesPydanticGet)
-async def get_device(id: str):
-    return await models.ActiveDevices.filter(id=id).prefetch_related('device').first()
+            response_model=schemas.DeviceInUseOut)
+async def get_device(id: str,
+                     session: AsyncSession = Depends(get_session)):
+    postgre_res = await models.ActiveDevices.filter(id=id).prefetch_related('device').first()
+    active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(postgre_res)
+    device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(postgre_res.device)
+    device_pool_info = device_pool_info.dict()
+    device_pool_info.pop('id')
+    device_pool_info.pop('active_devices')
+
+    action = await session.execute(
+        select(models.Events.action).order_by(
+            models.Events.created_at.desc()).filter(models.Events.device_id == postgre_res.id))
+    action = {'current_action': action.scalar()}
+
+    mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+    mongo_info.pop('_id')
+    device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+    return device
 
 
 @router.get('/device/{id}/ammortization',
