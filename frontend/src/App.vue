@@ -32,7 +32,8 @@ html {
   // max-width: 1980px;
   margin: 0 auto;
   height: 100%;
-  font-family: Old Standard TT;
+  font-family: 'Ledger', serif;
+  // font-family: 'Courier New', Courier, monospace;
   font-size: 30px;
   // font-weight: 600;
   background: #074f57;
