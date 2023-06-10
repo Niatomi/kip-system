@@ -24,5 +24,9 @@ export default {
   padding-left: 50px;
   padding-right: 50px;
   border-radius: 10px;
+
+  &:hover {
+    background: $color7;
+  }
 }
 </style>
