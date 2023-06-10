@@ -1,13 +1,14 @@
 <template>
-    <div class="cookie_container" v-if="!isAccepted">
+    <div class="cookie_container" v-if="!COOKIE_ACCEPTED">
         <p>Мы используем куки, надеюсь вы непротив...</p>
         <Button @click="acceptCookie">Ок</Button>
     </div>
 </template>
 
 <script>
-import button from '@/components/buttons/button.vue'
 import Button from '@/components/buttons/button.vue'
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
     name: 'CookieNotifier',
     components: {
@@ -15,12 +16,19 @@ export default {
     },
     data() {
         return {
-            isAccepted: false
         }
     },
+    computed: {
+        ...mapGetters([
+            'COOKIE_ACCEPTED'
+        ]),
+    },
     methods: {
+        ...mapActions([
+            'SET_ACCEPT_ON_COOKIE'
+        ]),
         acceptCookie() {
-            this.isAccepted = true;
+            this.SET_ACCEPT_ON_COOKIE()
         }
     }
 }
