@@ -15,6 +15,10 @@ export default {
         return true;
     },
     SET_COOKIE_DATA: (state) => {
+        if (cookie.isKey('cookieAccepted')) {
+            state.cookieAccepted = true
+        }
+        
         state.isLoggedIn = false;
         if (cookie.isKey('Authorization')) {
             state.token_type = 'Bearer'

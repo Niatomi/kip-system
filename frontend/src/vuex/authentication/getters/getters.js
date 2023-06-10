@@ -4,5 +4,8 @@ export default {
     },
     IS_LOGGED_IN(state) {
         return state.isLoggedIn;
+    },
+    COOKIE_ACCEPTED(state) {
+        return state.cookieAccepted
     }
 };
