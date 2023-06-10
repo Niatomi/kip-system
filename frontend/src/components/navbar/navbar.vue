@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-container" v-if="!(currentRouteName === 'auth' || currentRouteName === '404Error')">
-    <router-link to="/">
+    <div class="routerPush" @click="routerPush">
       <div class="logo-container">
         <img
           :src="require('@/assets/logo/Logo-darker.svg/')"
@@ -9,7 +9,7 @@
         />
         <h3>КИП Геофизика</h3>
       </div>
-    </router-link>
+    </div>
     <div class="btns-container" v-if="!IS_LOGGED_IN">
       <router-link to="jobPage">
         <h4 v-if="currentRouteName === 'jobPage'" style="color: #cacaca">
@@ -51,6 +51,13 @@ export default {
       if (this.LOGOUT()) {
         this.$router.push('/')
       }
+    },
+    routerPush() {
+      if (this.IS_LOGGED_IN) {
+        this.$router.push('/chiefPage')
+      } else {
+        this.$router.push('/')
+      }
     }
   },
   computed: {
@@ -74,7 +81,6 @@ export default {
       return 'Роль неизвестна';
     },
     userFio() {
-      console.log();
       let fio = ''
       if (this.USER.first_name !== undefined) {
         fio = this.USER.second_name;
