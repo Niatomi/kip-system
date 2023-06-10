@@ -1,3 +1,5 @@
+from typing import List
+from fastapi import Query
 from bson.objectid import ObjectId
 from tortoise.expressions import Q
 from src.database import mongo_db
@@ -7,6 +9,8 @@ from fastapi import status
 from fastapi.exceptions import HTTPException
 from fastapi import APIRouter
 from fastapi import Depends
+from fastapi_pagination import Page
+from fastapi_pagination.ext.tortoise import paginate
 
 from .. import models
 from . import schemas
@@ -16,6 +20,11 @@ from tortoise.transactions import in_transaction
 router = APIRouter(prefix='/device_pool',
                    dependencies=[Depends(utils.check_user_is_not_worker)],
                    tags=['Device Pool'])
+
+
+@router.get('/', response_model=Page[models.DevicePoolFullInfoGet])
+async def get_devices_in_pages():
+    return await paginate(models.DevicesPool)
 
 
 @router.post('/')
@@ -34,6 +43,12 @@ async def add_device_into_pool(device_specs: schemas.DevicePoolPost,
         await models.DevicesPool.filter(name=device_info.pop('name')).update(**device_info)
 
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=None)
+
+
+@router.get('/search',
+            response_model=List[models.DevicePoolFullInfoGet])
+async def find_by_name(name: str = Query()):
+    return await models.DevicesPool.filter(name__contains=name).all()
 
 
 @router.get('/device')
