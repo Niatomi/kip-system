@@ -1,4 +1,5 @@
 <template>
+  <Transition name="fade-slide1" appear>
     <div class="chief-container">
         <div class="menu-container">
             <h4>Меню</h4>
@@ -10,6 +11,7 @@
             <ActiveDevices v-if="menu === 'activeDevices'"/>
         </Transition>
     </div>
+  </Transition>
 </template>
 
 <script>
@@ -36,7 +38,7 @@ export default {
 
 .chief-container {
     display: flex;
-    gap: 1%;
+    gap: 10px;
 }
 
 .menu-container {
@@ -73,5 +75,17 @@ export default {
   transform: translateX(100px);
 }
 
+
+.fade-slide1-enter-active,
+.fade-slide1-leave-active {
+  transition: opacity 1s ease, transform 1s ease-in-out;
+  transform: translateY(0px);
+}
+
+.fade-slide1-enter-from,
+.fade-slide1-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
+}
 
 </style>
