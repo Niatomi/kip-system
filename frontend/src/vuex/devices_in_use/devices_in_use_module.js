@@ -7,11 +7,16 @@ import { createStore, mapGetters } from "vuex";
 
 const const_actions = { ...actions, ...api_actions };
 
-let devices_in_use_module = createStore({
-  state: {},
+export default {
+  state: {
+    currentDevicePage: 1,
+    allDevicesPage: [],
+    allDevicesInfo: [],
+    allChosenDeviceInfo: {}
+
+    
+  },
   mutations,
   actions: const_actions,
   getters,
-});
-
-export default devices_in_use_module;
+};

@@ -7,11 +7,9 @@ import { createStore, mapGetters } from "vuex";
 
 const const_actions = { ...actions, ...api_actions };
 
-let users_module = createStore({
+export default {
   state: {},
   mutations,
   actions: const_actions,
   getters,
-});
-
-export default users_module;
+};
