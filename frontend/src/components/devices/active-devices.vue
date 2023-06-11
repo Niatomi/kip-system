@@ -11,24 +11,24 @@
             >Все</LocalButton>
           <LocalButton 
             ref="Date.now()" 
-            @click="activeDeviceMenu = 2"
+            @click="activeDeviceMenu = 'category'"
             >Категория</LocalButton>
           <LocalButton 
             ref="Date.now()" 
-            @click="activeDeviceMenu = 3"
+            @click="activeDeviceMenu = 'specification'"
             >Спецификация</LocalButton>
           <LocalButton 
             ref="Date.now()" 
-            @click="activeDeviceMenu = 4"
+            @click="activeDeviceMenu = 'status'"
             >Статус</LocalButton>
           <LocalButton 
             ref="Date.now()" 
-            @click="activeDeviceMenu = 5"
+            @click="activeDeviceMenu = 'place'"
             >Место</LocalButton>
           <LocalButton 
             ref="Date.now()" 
             :last="true"
-            @click="activeDeviceMenu = 6"
+            @click="activeDeviceMenu = 'responsible'"
             >Ответственный</LocalButton>
             
         </div>
@@ -55,7 +55,8 @@ export default {
   components: {
       InfoFeed,
       LocalButton,
-      AllDevices
+      AllDevices,
+      
   },
   methods: {
     changeActiveMenu(event) {
@@ -69,7 +70,7 @@ export default {
 .device-active-container {
   display: flex;
   width: 100%;
-  gap: 20px;
+  gap: 10px;
   // flex-grow: 0;     /* do not grow   - initial value: 0 */
   flex-direction: column;
 }
@@ -95,7 +96,7 @@ export default {
 
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity 1s ease, transform 1s ease-in-out;
+  transition: opacity 0.5s ease, transform 0.5s ease-in-out;
   transform: translateY(0px);
 }
 
