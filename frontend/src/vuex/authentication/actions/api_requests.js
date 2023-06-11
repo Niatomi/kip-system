@@ -26,7 +26,6 @@ export default {
         method: "GET",
         headers: accessHeader
       }).then((user) => {
-        console.log(user.data);
         commit('SET_CURRENT_USER', user.data);
       })
       .catch((error) => {
