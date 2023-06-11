@@ -39,10 +39,16 @@ html {
   background: #074f57;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-weight: normal;
   margin: 0;
 }
