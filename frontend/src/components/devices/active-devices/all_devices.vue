@@ -23,7 +23,7 @@
     v-if="getPopupState" 
     @closePopup="closePopup()"
     >
-      <AllDevicePopup/>
+      <AllDevicePopup :key="123"/>
     </Popup>
   </div>
 </template>
@@ -53,33 +53,32 @@ export default {
       popupActive: false,
     }
   },
+  
   methods: {
     ...mapActions([
       'GET_ACTIVE_DEVICES_IN_PAGES',
-      'GET_DEVICE_FULL_INFO'
+      'GET_DEVICE_FULL_INFO',
+      'GET_DEVICE_BY_SEARCH'
     ]),
     openInfo(itemId) {
-      this.GET_DEVICE_FULL_INFO(itemId)
-      this.popupActive = true
+      this.GET_DEVICE_FULL_INFO(itemId).then(() => {
+         this.popupActive = true
+      })
     },
     closePopup() {
       this.popupActive = false
+    }
+  },
+  watch: {
+    search: function(val, oldVal) {
+      this.GET_DEVICE_BY_SEARCH(val);
     }
   },
   computed: {
     ...mapGetters([
       'ALL_DEVICES_PAGE',
       'ALL_DEVICES_INFO',
-      'CHOSEN_DEVICE'
     ]),
-    getSpecs() {
-      let ar = []
-      this.CHOSEN_DEVICE.specifications.forEach(data => {
-        ar.push([Object.keys(toRaw(data))[0], Object.values(toRaw(data))[0]]);
-      })
-      return ar
-      // return Object.entries()
-    },
     getPopupState() {
       return this.popupActive
     },
@@ -94,24 +93,6 @@ export default {
         return comparison;
       })
     },
-    fixedAmmortizationNumber() {
-      return parseFloat(this.CHOSEN_DEVICE.ammortization).toFixed(2);
-    },
-    getPrice() {
-      return this.CHOSEN_DEVICE.price
-    },
-    getStatus() {
-      let status = this.CHOSEN_DEVICE.current_action
-      if (status === 'CHECKED') {
-        return 'Поверен'
-      }
-      if (status === 'INSTALLED') {
-        return 'Установлен'
-      }
-      if (status === 'CHEKING') {
-        return 'Поверяется'
-      }
-    }
   },
   mounted() {
     this.GET_ACTIVE_DEVICES_IN_PAGES()

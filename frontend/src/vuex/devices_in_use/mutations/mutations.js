@@ -2,7 +2,13 @@
 export default {
   SET_ALL_DEVICES_TO_STATE: (state, devices) => {
     state.allDevicesPage = []
-    state.allDevicesPage.push(...devices.items)
+    if (devices.hasOwnProperty('items')) {
+      state.allDevicesPage.push(...devices.items)
+      Object.assign(state.allChosenDeviceInfo,{...devices.items[0]});
+    } else {
+      state.allDevicesPage.push(...devices)
+      Object.assign(state.allChosenDeviceInfo,{...devices[0]});
+    }
     state.allDevicesInfo = []
   },
   SET_ALL_INFO_INTO_ALL_DEVICES: (state, device) => {

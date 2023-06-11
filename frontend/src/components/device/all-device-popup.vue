@@ -44,14 +44,6 @@ export default {
     ...mapGetters([
       'CHOSEN_DEVICE'
     ]),
-    getSpecs() {
-      let ar = []
-      this.CHOSEN_DEVICE.specifications.forEach(data => {
-        ar.push([Object.keys(toRaw(data))[0], Object.values(toRaw(data))[0]]);
-      })
-      return ar
-      // return Object.entries()
-    },
     fixedAmmortizationNumber() {
       return parseFloat(this.CHOSEN_DEVICE.ammortization).toFixed(2);
     },
@@ -69,7 +61,18 @@ export default {
       if (status === 'CHEKING') {
         return 'Поверяется'
       }
-    }
+    },
+    getSpecs() {
+      let ar = []
+      if (typeof(this.CHOSEN_DEVICE.specifications) === undefined) {
+        return [['1', '2']]
+      } 
+      this.CHOSEN_DEVICE.specifications.forEach(data => {
+        ar.push([Object.keys(toRaw(data))[0], Object.values(toRaw(data))[0]]);
+      })
+      return ar
+    },
+
   },
 }
 </script>

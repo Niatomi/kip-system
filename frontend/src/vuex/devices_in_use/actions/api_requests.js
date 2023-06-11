@@ -71,5 +71,20 @@ export default {
       return error;
     })
   },
+  GET_DEVICE_BY_SEARCH({commit, state, dispatch, rootState}, searchQuery) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/search', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+      params : {'name': searchQuery}
+    })
+    .then((devices) => {
+      commit('SET_ALL_DEVICES_TO_STATE', devices.data);
+      dispatch('GET_DEVICE_FULL_INFO_IN_PAGES');
+      return devices.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
   
 } 
