@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .job-block {
-  background: $color7;
+  background: $color6;
   color: $color8;
   width: 96%;
   display: flex;
