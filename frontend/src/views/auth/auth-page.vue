@@ -1,34 +1,36 @@
 <template>
-  <div class="auth-wrapper">
-    <div class="logo-container">
-      <router-link to="/">
-        <img
+  <Transition name="fade-slide" appear>
+    <div class="auth-wrapper">
+      <div class="logo-container">
+        <router-link to="/">
+          <img
           :src="require('@/assets/logo/Logo-lighter.svg/')"
           alt="Logo"
           height="150"
-        />
+          />
+        </router-link>
+        <h2>КИП Геофизика</h2>
+        <svg width="380" height="5">
+          <rect width="500" height="5" style="fill: #d9d9d9" />
+        </svg>
+      </div>
+      
+      <div class="auth-page-container">
+        <h2>Вход</h2>
+        <form @submit.prevent="signIn" class="input-container" >
+          <input type="text" placeholder="Логин" v-model="login"/>
+          <input type="password" placeholder="Пароль" v-model="password"/>
+          <div class="error-message" v-if="error_msg.length">
+            <p>{{ error_msg }}</p>
+          </div>
+          <button type="submit">Войти</button>
+        </form>
+      </div>
+      <router-link to="/">
+        <p>На главную</p>
       </router-link>
-      <h2>КИП Геофизика</h2>
-      <svg width="380" height="5">
-        <rect width="500" height="5" style="fill: #d9d9d9" />
-      </svg>
     </div>
-
-    <div class="auth-page-container">
-      <h2>Вход</h2>
-      <form @submit.prevent="signIn" class="input-container" >
-        <input type="text" placeholder="Логин" v-model="login"/>
-        <input type="password" placeholder="Пароль" v-model="password"/>
-        <div class="error-message" v-if="error_msg.length">
-          <p>{{ error_msg }}</p>
-        </div>
-        <button type="submit">Войти</button>
-      </form>
-    </div>
-    <router-link to="/">
-      <p>На главную</p>
-    </router-link>
-  </div>
+  </Transition>
 </template>
 
 <script>
@@ -135,5 +137,17 @@ button {
   color: $textcolor;
   font-family: inherit;
   background: $color4;
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 1s ease, transform 1s ease-in-out;
+  transform: translateY(0px);
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(40px);
 }
 </style>
