@@ -29,13 +29,13 @@ export default {}
 
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: opacity 1s ease, transform 1s ease-in-out;
+  transition: opacity 0.5s ease, transform 0.5s ease-in-out;
   transform: translateY(0px);
 }
 
 .fade-slide-enter-from,
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateY(-40px);
+  transform: translateY(20px);
 }
 </style>
