@@ -21,40 +21,9 @@
     </InfoFeed>
     <Popup 
     v-if="getPopupState" 
-    @closePopup="closePopup()">
-      <h2>{{CHOSEN_DEVICE.name}}</h2>
-      <svg width="50%" height="5">
-        <rect width="100%" height="5" style="fill: #d9d9d9" />
-      </svg>
-      <p>Текущая аммортизация: {{ fixedAmmortizationNumber }} ₽</p>
-      <p>Текущий статус: {{ getStatus }}</p>
-      <p>Текущее место установки: {{ CHOSEN_DEVICE.place }}</p>
-      <p>Инвентаризационный номер: {{ CHOSEN_DEVICE.invent_number }}</p>
-      <p>Серийный номер: {{ CHOSEN_DEVICE.serial_number }}</p>
-      <svg width="50%" height="5">
-        <rect width="100%" height="5" style="fill: #d9d9d9" />
-      </svg>
-      <span>
-        <p>Описание:</p>
-        <p>{{CHOSEN_DEVICE.description}}</p>
-      </span>
-      <p>Категория: {{ CHOSEN_DEVICE.category }}</p>
-      <p>Интервал поверки (дни): {{ CHOSEN_DEVICE.check_intervals }}</p>
-      <p>Стоимость: {{ getPrice }} ₽</p>
-      <table border="1">
-        <caption>Спецификация устройства</caption>
-        <tr>
-          <th>Характеристики</th>
-          <th>Значения</th>
-        </tr>
-        <tr v-for="spec in getSpecs" :key="Math.random()">
-          <td>{{ spec[0] }}</td><td style="text-align: center;">{{ spec[1] }}</td>
-        </tr>
-      </table>
-      <span>
-        <h6 style="color: #747474">id: {{CHOSEN_DEVICE.id}}</h6>
-        <h6 style="color: #747474">proto_id: {{CHOSEN_DEVICE.device_id}}</h6>
-      </span>
+    @closePopup="closePopup()"
+    >
+      <AllDevicePopup/>
     </Popup>
   </div>
 </template>
@@ -64,6 +33,7 @@ import FindButton from '@/components/buttons/find-button'
 import InfoFeed from '@/components/info-feed/info-feed'
 import Button from '@/components/buttons/button'
 import Device from '@/components/device/device'
+import AllDevicePopup from '@/components/device/all-device-popup'
 import { mapActions, mapGetters } from 'vuex'
 import { toRaw } from 'vue'
 import Popup from '@/components/popup/popup'
@@ -74,7 +44,8 @@ export default {
     Button,
     FindButton,
     Device,
-    Popup
+    Popup,
+    AllDevicePopup
   },
   data() {
     return {
@@ -150,19 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 
-table {
-  border: none;
-  border-color: none;
-  background: $color7;
-  border-radius: 20px;
-  border-collapse: separate;
-}
 
-tr, td, th {
-  padding: 5px;
-  border: none;
-  border-color: inherit;
-}
 
 .inner-container {
   width: 100%;
