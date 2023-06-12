@@ -3,7 +3,7 @@
     <InfoFeed>
       <div class="inner-container">
         <form @change="getDevicesBySearch" class="input-container" >
-          <input type="text" class="search" placeholder="Поиск" v-model="search"/>
+          <input type="text" class="search" placeholder="Поиск по названию прибора" v-model="search"/>
         </form>
 
         <svg width="50%" height="5">
@@ -101,9 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
-
 .inner-container {
   width: 100%;
   max-width: 97%;
