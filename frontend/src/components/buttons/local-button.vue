@@ -1,12 +1,12 @@
 <template>
     <div class="local-button-container">
-        <div class="btn btn__first" v-if="first">
+        <div class="btn btn__first" :class="active ? 'btn__active' : ''" v-if="first">
             <h4><slot></slot></h4>
         </div>
-        <div class="btn btn__last" v-if="last">
+        <div class="btn btn__last" :class="active ? 'btn__active' : ''" v-if="last">
             <h4><slot></slot></h4>
         </div>
-        <div class="btn" v-if="!(first | last)">
+        <div class="btn" :class="active ? 'btn__active' : ''" v-if="!(first | last)">
             <h4><slot></slot></h4>
         </div>
     </div>
@@ -24,6 +24,10 @@ export default {
             type: Boolean,
             default: false
         },
+        active: {
+          type: Boolean,
+          default: false
+        }
     },
 }
 </script>
@@ -62,6 +66,10 @@ export default {
     background: $color7
     }
 
+    &__active {
+    background: $color7
+    }
 
 }
+
 </style>
