@@ -13,7 +13,7 @@
     </svg>
     <span>
       <p>Описание:</p>
-      <p>{{CHOSEN_DEVICE.description}}</p>
+      <p style="text-align: justify;">{{CHOSEN_DEVICE.description}}</p>
     </span>
     <p>Категория: {{ CHOSEN_DEVICE.category }}</p>
     <p>Интервал поверки (дни): {{ CHOSEN_DEVICE.check_intervals }}</p>
