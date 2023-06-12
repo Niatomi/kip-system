@@ -3,7 +3,7 @@
     <InfoFeed>
       <div class="inner-container">
         <select v-model="selected">
-          <option value="" disabled hidden>Выберите категорию</option>
+          <option value="" disabled hidden>Выберите статус прибора</option>
           <option v-for="status in formatStatuses" :value="status" :key="Math.random()">
             {{ status }}
           </option>
