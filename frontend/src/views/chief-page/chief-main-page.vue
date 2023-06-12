@@ -3,9 +3,24 @@
     <div class="chief-container">
         <div class="menu-container">
             <h4>Меню</h4>
-            <Button class="btn_override" ref="Date.now()" @click="menu='activeDevices'">Приборы</Button>
-            <Button class="btn_override" ref="Date.now()" @click="menu='users'">Сотрудники</Button>
-            <Button class="btn_override" ref="Date.now()" @click="menu='devicePool'">БД Приборов</Button>
+            <Button 
+            class="btn_override" 
+            ref="Date.now()" 
+            @click="menu='activeDevices'"
+            :active="menu === 'activeDevices' ? true : false">
+            Приборы</Button>
+            <Button 
+            class="btn_override" 
+            ref="Date.now()" 
+            @click="menu='users'"
+            :active="menu === 'users' ? true : false"
+            >Сотрудники</Button>
+            <Button 
+            class="btn_override" 
+            ref="Date.now()" 
+            @click="menu='devicePool'"
+            :active="menu === 'devicePool' ? true : false"
+            >БД Приборов</Button>
         </div>
         <Transition name="fade-slide" appear>
             <ActiveDevices v-if="menu === 'activeDevices'"/>
