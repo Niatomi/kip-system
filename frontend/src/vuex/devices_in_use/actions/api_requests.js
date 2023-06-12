@@ -86,5 +86,60 @@ export default {
       return error;
     })
   },
+  GET_AVAILABLE_CATEGORIES({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/categories', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_CATEGORIES_TO_STATE', response.data)
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICES_BY_CATEGORY({commit, state, dispatch, rootState}, category) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+      params : {'category': category}
+    })
+    .then((response) => {
+      commit('SET_CATEGORIZED_DEVICES', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_AVAILABLE_STATUSES({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/actions', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_STATUSES_TO_STATE', response.data)
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICES_BY_STATUS({commit, state, dispatch, rootState}, status) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+      params : {'action': status}
+    })
+    .then((response) => {
+      commit('SET_STATUSED_DEVICES', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  
   
 } 

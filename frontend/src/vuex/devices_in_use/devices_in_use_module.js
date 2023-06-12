@@ -12,7 +12,14 @@ export default {
     currentDevicePage: 1,
     allDevicesPage: [],
     allDevicesInfo: [],
-    allChosenDeviceInfo: {}
+
+    popupChosenDevice: {},
+
+    availableCategories: [],
+    categorizedDevices: [],
+
+    avaialableStatuses: [],
+    devicesByStatus: []
 
     
   },
