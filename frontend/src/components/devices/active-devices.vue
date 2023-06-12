@@ -8,34 +8,44 @@
             ref="Date.now()" 
             :first="true"
             @click="activeDeviceMenu='all'"
+            :active="activeDeviceMenu === 'all' ? true : false"
             >Все</LocalButton>
-          <LocalButton 
+            <LocalButton 
             ref="Date.now()" 
             @click="activeDeviceMenu = 'category'"
+            :active="activeDeviceMenu === 'category' ? true : false"
             >Категория</LocalButton>
-          <LocalButton 
+            <LocalButton 
             ref="Date.now()" 
             @click="activeDeviceMenu = 'specification'"
+            :active="activeDeviceMenu === 'specification' ? true : false"
             >Спецификация</LocalButton>
-          <LocalButton 
+            <LocalButton 
             ref="Date.now()" 
             @click="activeDeviceMenu = 'status'"
+            :active="activeDeviceMenu === 'status' ? true : false"
             >Статус</LocalButton>
-          <LocalButton 
+            <LocalButton 
             ref="Date.now()" 
             @click="activeDeviceMenu = 'place'"
+            :active="activeDeviceMenu === 'place' ? true : false"
             >Место</LocalButton>
-          <LocalButton 
+            <LocalButton 
             ref="Date.now()" 
             :last="true"
             @click="activeDeviceMenu = 'responsible'"
+            :active="activeDeviceMenu === 'responsible' ? true : false"
             >Ответственный</LocalButton>
             
         </div>
       </div>
     </InfoFeed>
     <Transition name="fade-slide" appear>
-      <AllDevices v-if="activeDeviceMenu === 'all'"/>
+      <div class="generic-container">
+        <AllDevices v-if="activeDeviceMenu === 'all'"/>
+        <CategorizedDevices v-if="activeDeviceMenu === 'category'"/>
+        <StatusedDevices v-if="activeDeviceMenu === 'status'"/>
+      </div>
     </Transition>
   </div>
 </template>
@@ -44,19 +54,22 @@
 import InfoFeed from '@/components/info-feed/info-feed.vue'
 import LocalButton from '@/components/buttons/local-button'
 import AllDevices from './active-devices/all_devices'
+import CategorizedDevices from './active-devices/category'
+import StatusedDevices from './active-devices/status'
 
 export default {
   name: 'ActiveDevices',
   data() {
     return {
-      activeDeviceMenu: ''
+      activeDeviceMenu: 'all'
     }
   },
   components: {
       InfoFeed,
       LocalButton,
       AllDevices,
-      
+      CategorizedDevices,
+      StatusedDevices
   },
   methods: {
     changeActiveMenu(event) {
