@@ -1,5 +1,5 @@
 <template>
-  <div class="button-container" :style="style">
+  <div class="button-container" :style="style" :class="active ? 'btn__active' : ''">
     <slot></slot>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "Button",
-  props: ["bgColor", "textColor"],
+  props: ["bgColor", "textColor", 'active'],
   computed: {
     style() {
       return "background: " + this.bgColor + "; color: " + this.textColor;
@@ -28,5 +28,9 @@ export default {
   &:hover {
     background: $color7;
   }
+}
+
+.btn__active {
+  background: $color7;
 }
 </style>
