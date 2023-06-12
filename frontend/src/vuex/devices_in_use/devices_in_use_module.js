@@ -19,7 +19,10 @@ export default {
     categorizedDevices: [],
 
     avaialableStatuses: [],
-    devicesByStatus: []
+    devicesByStatus: [],
+
+    availablePlaces: [],
+    devicesByPlace: []
 
     
   },

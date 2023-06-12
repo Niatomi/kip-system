@@ -16,10 +16,19 @@ export default {
   CATEGORIZED_DEVICES(state) {
     return state.categorizedDevices;
   },
+  
   AVAILABLE_STATUSES(state) {
-    return state.avaialableStatuses
+    return state.avaialableStatuses;
   },
   DEVICES_BY_STATUS(state) {
     return state.devicesByStatus;
+  },
+
+  AVAILABLE_PLACES(state) {
+    return state.availablePlaces;
+  },
+  DEVICES_BY_PLACE(state) {
+    return state.devicesByPlace;
   }
+  
 };

@@ -140,6 +140,33 @@ export default {
       return error;
     })
   },
+  GET_AVAILABLE_PLACES({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/places', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_PLACES_TO_STATE', response.data)
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICES_BY_PLACE({commit, state, dispatch, rootState}, place) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+      params : {'place': place}
+    })
+    .then((response) => {
+      commit('SET_PLACED_DEVICES', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
   
   
 } 

@@ -45,6 +45,7 @@
         <AllDevices v-if="activeDeviceMenu === 'all'"/>
         <CategorizedDevices v-if="activeDeviceMenu === 'category'"/>
         <StatusedDevices v-if="activeDeviceMenu === 'status'"/>
+        <PlacedDevices v-if="activeDeviceMenu === 'place'"/>
       </div>
     </Transition>
   </div>
@@ -56,6 +57,7 @@ import LocalButton from '@/components/buttons/local-button'
 import AllDevices from './active-devices/all_devices'
 import CategorizedDevices from './active-devices/category'
 import StatusedDevices from './active-devices/status'
+import PlacedDevices from './active-devices/place'
 
 export default {
   name: 'ActiveDevices',
@@ -69,7 +71,8 @@ export default {
       LocalButton,
       AllDevices,
       CategorizedDevices,
-      StatusedDevices
+      StatusedDevices,
+      PlacedDevices
   },
   methods: {
     changeActiveMenu(event) {

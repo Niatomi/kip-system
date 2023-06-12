@@ -37,9 +37,17 @@ export default {
     state.avaialableStatuses = statuses;
   },
   SET_STATUSED_DEVICES: (state, devices) => {
-      state.devicesByStatus = [];
-      state.devicesByStatus = devices;
-    },
+    state.devicesByStatus = [];
+    state.devicesByStatus = devices;
+  },
   
+  SET_PLACES_TO_STATE: (state, places) => {
+    state.availablePlaces = [];
+    state.availablePlaces = places;
+  },
+  SET_PLACED_DEVICES: (state, devices) => {
+    state.devicesByPlace = [];
+    state.devicesByPlace = devices;
+  }
 
 };
