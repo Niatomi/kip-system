@@ -29,6 +29,27 @@ export default {
   },
   DEVICES_BY_PLACE(state) {
     return state.devicesByPlace;
+  },
+  
+  AVAILABLE_RESPONSIBLES(state) {
+    return state.availableResposibles;
+  },
+  DEVICES_BY_RESPONSIBLE(state) {
+    return state.devicesByPerson;
+  },
+
+  AVAILABLE_SPECIFICATIONS(state) {
+    return state.availableSpecifications;
+  },
+  DEVICES_BY_SPECIFICATIONS(state) {
+    return state.devicesBySpecifications
+  },
+
+  ALL_USERS(state) {
+    return state.allUsers;
+  },
+  DEVICE_POOL_ADD(state) {
+    return state.devicesToAdd
   }
   
 };

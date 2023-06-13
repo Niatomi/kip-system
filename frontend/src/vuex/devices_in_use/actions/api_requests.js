@@ -58,6 +58,20 @@ export default {
       return error;
     })
   },
+  GET_DEVICE_RESOURCE_UNTIL_CHECK({ commit, state, rootState }, payload) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/device/'+payload.deviceId+'/remaining_resource_until_check', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader)
+    })
+    .then((response) => {
+      commit('SET_DEVICE_RESOURCE_ON_NEXT_CHECK', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  
   GET_DEVICE_TIME_IN_USE_BY_ID({ commit, state, rootState }, payload) {
     return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/device/'+payload.deviceId+'/time_in_use', {
       method: "GET",
@@ -167,6 +181,128 @@ export default {
       return error;
     })
   },
+
+  GET_AVAILABLE_RESPONSIBLES({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/reposponsible_persons', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DETAILED_INFO_ABOUT_RESPONSIBLE({commit, state, dispatch, rootState}, responsbiles) {
+
+    responsbiles.forEach(responsbile => {
+      return axios(process.env.VUE_APP_ROOT_API+'/v1/users/'+responsbile, {
+        method: "GET",
+        headers: toRaw(rootState.auth.accessHeader),
+      })
+      .then((response) => {
+        commit('SET_RESPONSBILE_TO_STATE', response.data)
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      })
+    })
+  },
+  GET_DEVICES_BY_RESPONSIBLE({commit, state, dispatch, rootState}, responsible) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+      params : {'person_id': responsible.id}
+    })
+    .then((response) => {
+      commit('SET_RESPONSIBLES_DEVICES', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
   
+  GET_AVAILABLE_SPECIFICATIONS({commit, state, dispatch, rootState}, responsible) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/specifications', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_SPECIFICATIONS_TO_STATE', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICES_BY_SPECIFICATIONS({commit, state, dispatch, rootState}, specificationsArray) {
+    let rawParams = '';
+    let spec = toRaw(specificationsArray)
+    let isFirst = true;
+    specificationsArray.forEach(value => {
+      if (!isFirst) {
+          rawParams += '&'
+      }
+      isFirst = false;
+      rawParams += 'specifications=' + value
+    })
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/by_specification?'+rawParams, {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_SPECIFICATED_DEVICES', response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  
+  GET_USERS({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/users/', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_ALL_USERS', response.data.items);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICE_POOL_ADD({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/device_pool', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_DEVICE_POOL_ON_ADD', response.data.items);
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  ADD_ACTIVE_DEVICE({commit, state, dispatch, rootState}, data) {
+    let selectedPersonId = data.selectedPersonId
+    delete data.selectedPersonId
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use', {
+      method: "POST",
+      headers: toRaw(rootState.auth.accessHeader),
+      params: {'responsible_person': selectedPersonId},
+      data: data
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
   
 } 

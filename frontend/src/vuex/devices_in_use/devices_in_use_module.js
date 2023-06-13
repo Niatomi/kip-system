@@ -22,8 +22,16 @@ export default {
     devicesByStatus: [],
 
     availablePlaces: [],
-    devicesByPlace: []
+    devicesByPlace: [],
+    
+    availableResposibles: [],
+    devicesByPerson: [],
 
+    availableSpecifications: [],
+    devicesBySpecifications: [],
+
+    allUsers: [],
+    devicesToAdd: []
     
   },
   mutations,
