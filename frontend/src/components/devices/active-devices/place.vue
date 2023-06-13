@@ -57,7 +57,6 @@ export default {
   },
   watch: {
     selected: function(val) {
-      console.log(val);
       this.GET_DEVICES_BY_PLACE(val);
     }
   },
