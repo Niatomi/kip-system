@@ -79,7 +79,7 @@ export default {
       } else if (value === "Починен") {
         return "REPAIRED"
       } else {
-        return value
+        return value.toUpperCase()
       }
     },
     openInfo(itemId) {
@@ -111,8 +111,9 @@ export default {
         } else if (value === "REPAIRED") {
           statuses.push('Починен');
         } else {
-          statuses.push(value)
+          statuses.push(value.charAt(0) + value.toLowerCase().slice(1))
         }
+        
       })
       return statuses
     }
@@ -124,6 +125,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.all-devices-container {
+  margin-bottom: 10px;
+}
 
 select {
   width: 100%;
