@@ -108,7 +108,6 @@ export default {
   display: flex;
   width: 100%;
   gap: 10px;
-  // flex-grow: 0;     /* do not grow   - initial value: 0 */
   flex-direction: column;
 }
 
