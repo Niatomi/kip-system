@@ -37,15 +37,22 @@
             :active="activeDeviceMenu === 'responsible' ? true : false"
             >Ответственный</LocalButton>
             
-        </div>
+          </div>
+          <AddDeviceButton 
+          ref="Date.now()" 
+          @click="showAdd = true"
+          >Добавить устройство</AddDeviceButton>
       </div>
     </InfoFeed>
+    <Popup @closePopup="closeAddDevice" v-if="showAdd"><AddDevice></AddDevice></Popup>
     <Transition name="fade-slide" appear>
       <div class="generic-container">
         <AllDevices v-if="activeDeviceMenu === 'all'"/>
         <CategorizedDevices v-if="activeDeviceMenu === 'category'"/>
         <StatusedDevices v-if="activeDeviceMenu === 'status'"/>
         <PlacedDevices v-if="activeDeviceMenu === 'place'"/>
+        <ResponsiblesDevices v-if="activeDeviceMenu === 'responsible'"/>
+        <SpecificationsDevices v-if="activeDeviceMenu === 'specification'"/>
       </div>
     </Transition>
   </div>
@@ -58,12 +65,18 @@ import AllDevices from './active-devices/all_devices'
 import CategorizedDevices from './active-devices/category'
 import StatusedDevices from './active-devices/status'
 import PlacedDevices from './active-devices/place'
+import ResponsiblesDevices from './active-devices/responsible'
+import SpecificationsDevices from './active-devices/specification'
+import Popup from '@/components/popup/popup'
+import AddDevice from '@/components/device/add-device'
+import AddDeviceButton from '@/components/buttons/add-device-button'
 
 export default {
   name: 'ActiveDevices',
   data() {
     return {
-      activeDeviceMenu: 'all'
+      activeDeviceMenu: 'all',
+      showAdd: false
     }
   },
   components: {
@@ -72,11 +85,19 @@ export default {
       AllDevices,
       CategorizedDevices,
       StatusedDevices,
-      PlacedDevices
+      PlacedDevices,
+      ResponsiblesDevices,
+      SpecificationsDevices,
+      Popup,
+      AddDevice,
+      AddDeviceButton
   },
   methods: {
     changeActiveMenu(event) {
       this.activeDeviceMenu = event
+    },
+    closeAddDevice() {
+      this.showAdd = false
     }
   }
 }
@@ -101,6 +122,14 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100% - 3;
+}
+
+.override_button {
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .btns {
