@@ -23,7 +23,10 @@
             >БД Приборов</Button>
         </div>
         <Transition name="fade-slide" appear>
+          <div class="generic-container">
             <ActiveDevices v-if="menu === 'activeDevices'"/>
+            <Users v-if="menu === 'users'"/>
+          </div>
         </Transition>
     </div>
   </Transition>
@@ -32,13 +35,16 @@
 <script>
 import Button from '@/components/buttons/button.vue'
 import ActiveDevices from '@/components/devices/active-devices'
+import Users from '@/components/users/users'
 import { Transition } from "vue";
 
 export default {
     name: "ChiefPage",
     components: {
         Button,
-        ActiveDevices
+        ActiveDevices,
+        Transition,
+        Users
     },
     data() {
         return {
@@ -54,6 +60,10 @@ export default {
 .chief-container {
     display: flex;
     gap: 10px;
+}
+
+.generic-container {
+  width: 100%;
 }
 
 .menu-container {
