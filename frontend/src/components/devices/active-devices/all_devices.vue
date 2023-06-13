@@ -101,6 +101,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.all-devices-container {
+  margin-bottom: 10px;
+}
 .inner-container {
   width: 100%;
   max-width: 97%;
