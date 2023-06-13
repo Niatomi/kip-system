@@ -52,7 +52,7 @@ async def get_user_by_params(params: schemas.UsersGetParams = Depends(schemas.Us
     return user
 
 
-@router.post('/user', dependencies=[Depends(check_user_is_not_worker)])
+@router.post('/', dependencies=[Depends(check_user_is_not_worker)])
 async def add_user(sign_up_user: schemas.UserCredentials,
                    signin_user: Users = Depends(get_current_user)):
 
