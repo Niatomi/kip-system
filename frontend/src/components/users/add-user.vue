@@ -5,7 +5,6 @@
       <span>
         <label for="text">Логин:</label>
         <input type="text" v-model="username" placeholder="Введите значение"/>
-        
       </span>
       <span>
         <label for="text">Пароль:</label>
@@ -31,7 +30,6 @@
         <label for="text">Роль:</label>
         <select v-model="role">
           <option value="" disabled hidden>Выберите роль</option>
-          <option value="ALL">Все</option>
           <option v-for="role in USER_ROLES" :value="role" :key="Math.random()">
             {{ rolesFormat(role) }}
           </option>
