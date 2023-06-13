@@ -121,7 +121,6 @@ export default {
       data['device_info'] = buf_obj
       
       this.ADD_INTO_POOL_DEVICES(data).then((response) => {
-        console.log(response);
         if (response.status === 201) {
           this.deviceCreated = true;
           this.error_msg = ''

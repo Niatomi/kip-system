@@ -93,7 +93,6 @@ export default {
       Object.assign(data, {'third_name': this.third_name});
       Object.assign(data, {'role': this.role});
       this.SIGN_UP_USER(data).then((response) => {
-        console.log(response);
         if (response.status === 201) {
           this.userAdded = true;
           this.error_msg = ''

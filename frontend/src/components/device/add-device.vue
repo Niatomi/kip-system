@@ -77,7 +77,6 @@ export default {
       Object.assign(data, {'device_id': this.selectedDeviceId});
       Object.assign(data, {'selectedPersonId': this.selectedPersonId});
       this.ADD_ACTIVE_DEVICE(data).then((response) => {
-        console.log(response);
         if (response.code === "ERR_BAD_REQUEST") {
           this.error_msg = 'Ошибка валидации данных'
           return this.error_msg;

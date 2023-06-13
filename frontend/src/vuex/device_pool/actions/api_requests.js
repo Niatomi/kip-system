@@ -17,7 +17,6 @@ export default {
     })
   },
   ADD_INTO_POOL_DEVICES({commit, state, dispatch, rootState}, data) {
-    console.log(data);
     return axios(process.env.VUE_APP_ROOT_API+'/v1/device_pool/', {
       method: "POST",
       headers: toRaw(rootState.auth.accessHeader),
@@ -31,7 +30,6 @@ export default {
     })
   },
   GET_DEVICE_POOL_BY_ID_TO_CHOSE_API({commit, state, dispatch, rootState}, deviceId) {
-    console.log(deviceId);
     return axios(process.env.VUE_APP_ROOT_API+'/v1/device_pool/device/' + deviceId, {
       method: "GET",
       headers: toRaw(rootState.auth.accessHeader),
