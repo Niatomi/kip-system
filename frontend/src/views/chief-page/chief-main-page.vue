@@ -1,33 +1,34 @@
 <template>
   <Transition name="fade-slide1" appear>
     <div class="chief-container">
-        <div class="menu-container">
-            <h4>Меню</h4>
-            <Button 
-            class="btn_override" 
-            ref="Date.now()" 
-            @click="menu='activeDevices'"
-            :active="menu === 'activeDevices' ? true : false">
-            Приборы</Button>
-            <Button 
-            class="btn_override" 
-            ref="Date.now()" 
-            @click="menu='users'"
-            :active="menu === 'users' ? true : false"
-            >Сотрудники</Button>
-            <Button 
-            class="btn_override" 
-            ref="Date.now()" 
-            @click="menu='devicePool'"
-            :active="menu === 'devicePool' ? true : false"
-            >БД Приборов</Button>
+      <div class="menu-container">
+        <h4>Меню</h4>
+        <Button 
+        class="btn_override" 
+        ref="Date.now()" 
+        @click="menu='activeDevices'"
+        :active="menu === 'activeDevices' ? true : false">
+        Приборы</Button>
+        <Button 
+        class="btn_override" 
+        ref="Date.now()" 
+        @click="menu='users'"
+        :active="menu === 'users' ? true : false"
+        >Сотрудники</Button>
+        <Button 
+        class="btn_override" 
+        ref="Date.now()" 
+        @click="menu='devicePool'"
+        :active="menu === 'devicePool' ? true : false"
+        >БД Приборов</Button>
+      </div>
+      <Transition name="fade-slide" appear>
+        <div class="generic-container">
+          <ActiveDevices v-if="menu === 'activeDevices'"/>
+          <Users v-if="menu === 'users'"/>
+          <DevicePool v-if="menu === 'devicePool'"/>
         </div>
-        <Transition name="fade-slide" appear>
-          <div class="generic-container">
-            <ActiveDevices v-if="menu === 'activeDevices'"/>
-            <Users v-if="menu === 'users'"/>
-          </div>
-        </Transition>
+      </Transition>
     </div>
   </Transition>
 </template>
@@ -35,22 +36,25 @@
 <script>
 import Button from '@/components/buttons/button.vue'
 import ActiveDevices from '@/components/devices/active-devices'
+import DevicePool from '@/components/devices/device-pool'
 import Users from '@/components/users/users'
 import { Transition } from "vue";
 
+
 export default {
-    name: "ChiefPage",
-    components: {
-        Button,
-        ActiveDevices,
-        Transition,
-        Users
-    },
-    data() {
-        return {
-            menu: ''
-        }
+  name: "ChiefPage",
+  components: {
+    Button,
+    ActiveDevices,
+    Transition,
+    Users,
+    DevicePool
+  },
+  data() {
+    return {
+      menu: ''
     }
+  }
 }
 </script>
 
