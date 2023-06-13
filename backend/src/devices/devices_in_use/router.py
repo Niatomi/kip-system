@@ -400,17 +400,39 @@ async def calc_time_in_use(id: str,
 async def calc_remaining_time(id: str,
                               session: AsyncSession = Depends(get_session)):
     query = select(models.Events).order_by(
+        models.Events.created_at.asc()
+    ).filter(models.Events.device_id == id and
+             (models.Events.action == 'REGISTRED'))
+    first_appear = await session.execute(query)
+    first_appear = first_appear.scalar()
+    first_action = first_appear.created_at
+
+    query = select(models.Events).order_by(
         models.Events.created_at.desc()
     ).filter(models.Events.device_id == id and
              (models.Events.action == 'CHECKED' or models.Events.action == 'REGISTRED'))
-    events = await session.execute(query)
-    events = events.scalar()
-    last_check = events.created_at
+    last_action = await session.execute(query)
+    last_action = last_action.scalar()
+    last_check = last_action.created_at
 
-    device = await get_device(events.device_id)
-    device = device.device
+    id = first_appear.device_id
 
-    expire = last_check + timedelta(days=device.check_intervals)
+    postgre_res = await models.ActiveDevices.filter(id=id).prefetch_related('device').first()
+    active_device_info = await ActiveDevicesPydanticGet.from_tortoise_orm(postgre_res)
+    device_pool_info = await DevicePoolFullInfo.from_tortoise_orm(postgre_res.device)
+    device_pool_info = device_pool_info.dict()
+    device_pool_info.pop('id')
+    device_pool_info.pop('active_devices')
 
-    remaining_time = expire - datetime.datetime.now()
-    return round(remaining_time.total_seconds())
+    action = await session.execute(
+        select(models.Events.action).order_by(
+            models.Events.created_at.desc()).filter(models.Events.device_id == postgre_res.id))
+    action = {'current_action': action.scalar()}
+
+    mongo_info = await get_mongo_object_by_id(device_pool_info['mongo_id'])
+    mongo_info.pop('_id')
+    device = {**active_device_info.dict(), **device_pool_info, **mongo_info, **action}
+
+    delta = last_check - first_action
+    remaing_time = (365 * device['resource']) - delta.days - device['check_intervals']
+    return remaing_time // 365
