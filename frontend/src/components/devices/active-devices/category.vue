@@ -93,6 +93,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.all-devices-container {
+  margin-bottom: 10px;
+}
 
 select {
   width: 100%;
