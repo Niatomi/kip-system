@@ -15,14 +15,14 @@
       :key="item.id"
       :device="item"
       @click="openInfo(item.id)"
-      
+          
       />
     </InfoFeed>
     <Popup 
     v-if="popupActive" 
     @closePopup="closePopup()"
     >
-      <AllDevicePopup :key="123"/>
+      <AllDevicePopup @updateEvent="updateDevices" :key="123"/>
     </Popup>
   </div>
 </template>
@@ -76,6 +76,9 @@ export default {
     closePopup() {
       this.popupActive = false
     },
+    updateDevices() {
+      this.GET_PLANED_DEVICES().then(() => {})
+    }
   },
   computed: {
     ...mapGetters([
