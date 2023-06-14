@@ -442,13 +442,15 @@ async def calc_remaining_time(id: str,
 async def check_plan(session: AsyncSession = Depends(get_session)):
     query = select(models.Events).order_by(
         models.Events.created_at.desc()
-    ).filter(models.Events.action == 'INSTALLED')
+    )
     objects = await session.execute(query)
     events = objects.scalars()
     last_events = []
     known_devices = []
     for event in events:
         if not known_devices.count(event.device_id):
+            if event.action != 'ON_CHECK':
+                continue
             known_devices.append(event.device_id)
             deviceInfo = await models.DevicesPool.filter(active_devices__id=event.device_id).first()
 
@@ -466,13 +468,38 @@ async def check_plan(session: AsyncSession = Depends(get_session)):
 async def on_check_status(session: AsyncSession = Depends(get_session)):
     query = select(models.Events).order_by(
         models.Events.created_at.desc()
-    ).filter(models.Events.action == 'ON_CHECK')
+    )
     objects = await session.execute(query)
     events = objects.scalars()
     last_events = []
     known_devices = []
     for event in events:
+
         if not known_devices.count(event.device_id):
+            if event.action != 'ON_CHECK':
+                known_devices.append(event.device_id)
+                continue
             known_devices.append(event.device_id)
             last_events.append(event.device_id)
     return last_events
+
+
+@router.get('/{id}/on_check',
+            dependencies=[Depends(check_device_is_exists)])
+async def get_next_check_on_device(id: str,
+                                   session: AsyncSession = Depends(get_session)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter((models.Events.device_id == id))
+    objects = await session.execute(query)
+    event = objects.scalar()
+    if event is None:
+        return None
+    if event.action == 'ON_CHECK':
+        return None
+
+    deviceInfo = await models.DevicesPool.filter(active_devices__id=event.device_id).first()
+    probable_time = event.created_at + timedelta(days=deviceInfo.check_intervals)
+    if probable_time < datetime.datetime.now():
+        probable_time = 'NEEDS_CHECK'
+    return probable_time
