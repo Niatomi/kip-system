@@ -10,8 +10,8 @@
         </svg>
       </div>
       <Device
-      v-if="formDevices.length"
-      v-for="item in formDevices"
+      v-if="sortedDevices.length"
+      v-for="item in sortedDevices"
       :key="item.id"
       :device="item"
       @click="openInfo(item.id)"
@@ -78,12 +78,7 @@ export default {
     },
     updateDevices() {
       this.GET_PLANED_DEVICES().then(() => {})
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'PLANED_DEVICES',
-    ]),
+    },
     formDevices() {
       let array = []
       if (this.showOnlyNeedToCheck) {
@@ -95,6 +90,23 @@ export default {
         return array;
       } 
       return this.PLANED_DEVICES;
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'PLANED_DEVICES',
+    ]),
+    
+    sortedDevices() {
+      return this.formDevices().sort(function(o1,o2) {
+        console.log(o1.next_check_time);
+        if (o1.next_check_time < o2.next_check_time)    
+          return -1;
+        else if (o1.next_check_time > o2.next_check_time) 
+          return  1;
+        else                      
+          return  0;
+      })
     }
   },
   mounted() {
