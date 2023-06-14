@@ -10,7 +10,6 @@
         </select>
         <div class="local-chosen-container">
           <span>
-            <h4 class="chosen-text">Выбранные спецификации:</h4>
             <div class="specifications-container">
               <Specification 
               v-for="chosenSpec in arrayOfSpecifications" 
