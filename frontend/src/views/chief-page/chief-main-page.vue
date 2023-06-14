@@ -3,6 +3,9 @@
     <div class="chief-container">
       <div class="menu-container">
         <h4>Меню</h4>
+        <svg width="50%" height="5">
+            <rect width="100%" height="5" style="fill: #d9d9d9" />
+        </svg>
         <Button 
         class="btn_override" 
         ref="Date.now()" 
@@ -12,21 +15,35 @@
         <Button 
         class="btn_override" 
         ref="Date.now()" 
-        @click="menu='users'"
-        :active="menu === 'users' ? true : false"
-        >Сотрудники</Button>
+        @click="menu='actions'"
+        :active="menu === 'actions' ? true : false"
+        >Поверка</Button>
+        <svg width="50%" height="5">
+            <rect width="100%" height="5" style="fill: #d9d9d9" />
+        </svg>
         <Button 
         class="btn_override" 
         ref="Date.now()" 
         @click="menu='devicePool'"
         :active="menu === 'devicePool' ? true : false"
         >БД Приборов</Button>
+        <svg width="50%" height="5">
+            <rect width="100%" height="5" style="fill: #d9d9d9" />
+        </svg>
+        <Button 
+        class="btn_override" 
+        ref="Date.now()" 
+        @click="menu='users'"
+        :active="menu === 'users' ? true : false"
+        >Сотрудники</Button>
+        
       </div>
       <Transition name="fade-slide" appear>
         <div class="generic-container">
           <ActiveDevices v-if="menu === 'activeDevices'"/>
           <Users v-if="menu === 'users'"/>
           <DevicePool v-if="menu === 'devicePool'"/>
+          <Statuses v-if="menu === 'actions'"/>
         </div>
       </Transition>
     </div>
@@ -38,6 +55,7 @@ import Button from '@/components/buttons/button.vue'
 import ActiveDevices from '@/components/devices/active-devices'
 import DevicePool from '@/components/devices/device-pool'
 import Users from '@/components/users/users'
+import Statuses from '@/components/statuses/statuses'
 import { Transition } from "vue";
 
 
@@ -48,7 +66,8 @@ export default {
     ActiveDevices,
     Transition,
     Users,
-    DevicePool
+    DevicePool,
+    Statuses
   },
   data() {
     return {
