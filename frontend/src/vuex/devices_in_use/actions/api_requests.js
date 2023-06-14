@@ -304,5 +304,45 @@ export default {
       return error;
     })
   },
+  GET_DEVICE_NEXT_CHECK({commit, state, dispatch, rootState}, deviceId) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/' +deviceId+ '/on_check', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      commit('SET_POOL_DEVICE_TO_CHOSE', response.data)
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  PATCH_NEW_DEVICE_STATUS({commit, state, dispatch, rootState}, payload) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/device/' +payload.deviceId, {
+      method: "PATCH",
+      headers: toRaw(rootState.auth.accessHeader),
+      params: {'action': payload.deviceStatus}
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  GET_DEVICE_STATUSES({commit, state, dispatch, rootState}) {
+    return axios(process.env.VUE_APP_ROOT_API+'/v1/devices_in_use/actions', {
+      method: "GET",
+      headers: toRaw(rootState.auth.accessHeader),
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error;
+    })
+  },
+  
+  
   
 } 
