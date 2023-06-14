@@ -37,10 +37,9 @@
           <button class="search_btn" @click="deleteSpecification(spec[0])">
             <i class="material-icons">close</i>
           </button>
-
         </div>
       </span>
-      <button type="add_panel" class="override_btn" @click="addRow"><h4>Добавить поле</h4></button>
+      <button type="add_panel" class="override_btn" @click.prevent="addRow()"><h4>Добавить поле</h4></button>
       
       <button type="submit"><h4>Добавить прибор в базу</h4></button>
     </form>
