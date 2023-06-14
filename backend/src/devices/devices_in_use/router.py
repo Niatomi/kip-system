@@ -436,3 +436,43 @@ async def calc_remaining_time(id: str,
     delta = last_check - first_action
     remaing_time = (365 * device['resource']) - delta.days - device['check_intervals']
     return remaing_time // 365
+
+
+@router.get('/next_check')
+async def check_plan(session: AsyncSession = Depends(get_session)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.action == 'INSTALLED')
+    objects = await session.execute(query)
+    events = objects.scalars()
+    last_events = []
+    known_devices = []
+    for event in events:
+        if not known_devices.count(event.device_id):
+            known_devices.append(event.device_id)
+            deviceInfo = await models.DevicesPool.filter(active_devices__id=event.device_id).first()
+
+            probable_time = event.created_at + timedelta(days=deviceInfo.check_intervals)
+            if probable_time < datetime.datetime.now():
+                probable_time = 'NEEDS_CHECK'
+            last_events.append({
+                'device_id': event.device_id,
+                'next_check_time': probable_time
+            })
+    return last_events
+
+
+@router.get('/on_check')
+async def on_check_status(session: AsyncSession = Depends(get_session)):
+    query = select(models.Events).order_by(
+        models.Events.created_at.desc()
+    ).filter(models.Events.action == 'ON_CHECK')
+    objects = await session.execute(query)
+    events = objects.scalars()
+    last_events = []
+    known_devices = []
+    for event in events:
+        if not known_devices.count(event.device_id):
+            known_devices.append(event.device_id)
+            last_events.append(event.device_id)
+    return last_events
