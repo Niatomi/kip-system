@@ -141,7 +141,7 @@ export default {
 select {
   width: 100%;
   border-radius: 20px;
-  height: 60px;
+  height: 45px;
   font-size: 30px;
   background: $color6;
   font-family: inherit;
@@ -152,9 +152,6 @@ select {
 
 option {
   border-radius: 20px;
-}
-.specification {
-
 }
 .chosen-text {
   text-align: left;
@@ -178,8 +175,8 @@ option {
   text-align: center;
   width: 100%;
   padding: 0px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  // padding-top: 5px;
+  // padding-bottom: 5px;
   background: $color4;
   border-radius: 0 0 20px 20px;
 }
@@ -192,20 +189,6 @@ option {
   flex-direction: column;
   gap: 10px;
   align-items: center;
-}
-
-.input-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-}
-
-.search {
-  color: $color8;
-  padding-left: 15px;
-  border: none;
-  border-radius: 20px;
 }
 
 input {

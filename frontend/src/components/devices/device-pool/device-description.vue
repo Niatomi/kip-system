@@ -19,10 +19,7 @@
         <td>{{ spec[0] }}</td><td style="text-align: center;">{{ spec[1] }}</td>
       </tr>
     </table>
-    <span>
-      <h6 style="color: #747474">id: {{CHOSEN_DEVICE_POOL_DEVICE.id}}</h6>
-      <h6 style="color: #747474">proto_id: {{CHOSEN_DEVICE_POOL_DEVICE.device_id}}</h6>
-    </span>
+    <h6 style="color: #747474">proto_id: {{CHOSEN_DEVICE_POOL_DEVICE.id}}</h6>
   </div>
 </template>
 
