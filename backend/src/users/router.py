@@ -1,3 +1,4 @@
+from src.auth.utils import hash
 from src.models import UserOutPydantic
 from fastapi.responses import JSONResponse
 from tortoise.transactions import in_transaction
