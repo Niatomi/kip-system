@@ -74,6 +74,8 @@ export default {
         return "REGISTRED";
       } else if (value === "Установлен") {
         return "INSTALLED";
+      } else if (value === "На поверке") {
+        return "ON_CHECK";
       } else if (value === "Поверен") {
         return "CHECKED";
       } else if (value === "Починен") {
@@ -106,6 +108,8 @@ export default {
           statuses.push('Зарегистрирован');
         } else if (value === "INSTALLED") {
           statuses.push('Установлен');
+        } else if (value === "ON_CHECK") {
+          statuses.push('На поверке');
         } else if (value === "CHECKED") {
           statuses.push('Поверен');
         } else if (value === "REPAIRED") {

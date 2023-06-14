@@ -108,6 +108,9 @@ export default {
       if (status === 'INSTALLED') {
         return 'Установлен'
       }
+      if (status === 'ON_CHECK') {
+        return 'На поверке'
+      }
       if (status === 'CHEKING') {
         return 'Поверяется'
       }
