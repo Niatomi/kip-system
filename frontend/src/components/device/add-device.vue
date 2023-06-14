@@ -145,6 +145,10 @@ button {
   margin-left: 15px; 
 }
 
+.device-container:hover {
+  background: inherit;
+}
+
 .input-container {
   display: flex;
   flex-direction: column;
