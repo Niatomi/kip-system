@@ -1,13 +1,15 @@
 <template>
   <div class="users-container">
-    <InfoFeed>
-      <div class="local-navbar">
-        <AddDeviceButton 
+    <Transition name="fade-slide" appear>
+      <InfoFeed>
+        <div class="local-navbar">
+          <AddDeviceButton 
           ref="Date.now()" 
           @click="showAdd = true"
           >Добавить устройство</AddDeviceButton>
-      </div>
-    </InfoFeed>
+        </div>
+      </InfoFeed>
+    </Transition>
     <Transition name="fade-slide" appear>
       <InfoFeed>
         <div class="generic-container">

@@ -1,49 +1,50 @@
 <template>
   <div class="device-active-container">
-
-    <InfoFeed>
-      <div class="local-navbar">
-        <div class="btns">
-          <LocalButton 
-            ref="Date.now()" 
-            :first="true"
-            @click="activeDeviceMenu='all'"
-            :active="activeDeviceMenu === 'all' ? true : false"
-            >Все</LocalButton>
+    <Transition name="fade-slide" appear>
+      <InfoFeed>
+        <div class="local-navbar">
+          <div class="btns">
             <LocalButton 
+              ref="Date.now()" 
+              :first="true"
+              @click="activeDeviceMenu='all'"
+              :active="activeDeviceMenu === 'all' ? true : false"
+              >Все</LocalButton>
+              <LocalButton 
+              ref="Date.now()" 
+              @click="activeDeviceMenu = 'category'"
+              :active="activeDeviceMenu === 'category' ? true : false"
+              >Категория</LocalButton>
+              <LocalButton 
+              ref="Date.now()" 
+              @click="activeDeviceMenu = 'specification'"
+              :active="activeDeviceMenu === 'specification' ? true : false"
+              >Спецификация</LocalButton>
+              <LocalButton 
+              ref="Date.now()" 
+              @click="activeDeviceMenu = 'status'"
+              :active="activeDeviceMenu === 'status' ? true : false"
+              >Статус</LocalButton>
+              <LocalButton 
+              ref="Date.now()" 
+              @click="activeDeviceMenu = 'place'"
+              :active="activeDeviceMenu === 'place' ? true : false"
+              >Место</LocalButton>
+              <LocalButton 
+              ref="Date.now()" 
+              :last="true"
+              @click="activeDeviceMenu = 'responsible'"
+              :active="activeDeviceMenu === 'responsible' ? true : false"
+              >Ответственный</LocalButton>
+              
+            </div>
+            <AddDeviceButton 
             ref="Date.now()" 
-            @click="activeDeviceMenu = 'category'"
-            :active="activeDeviceMenu === 'category' ? true : false"
-            >Категория</LocalButton>
-            <LocalButton 
-            ref="Date.now()" 
-            @click="activeDeviceMenu = 'specification'"
-            :active="activeDeviceMenu === 'specification' ? true : false"
-            >Спецификация</LocalButton>
-            <LocalButton 
-            ref="Date.now()" 
-            @click="activeDeviceMenu = 'status'"
-            :active="activeDeviceMenu === 'status' ? true : false"
-            >Статус</LocalButton>
-            <LocalButton 
-            ref="Date.now()" 
-            @click="activeDeviceMenu = 'place'"
-            :active="activeDeviceMenu === 'place' ? true : false"
-            >Место</LocalButton>
-            <LocalButton 
-            ref="Date.now()" 
-            :last="true"
-            @click="activeDeviceMenu = 'responsible'"
-            :active="activeDeviceMenu === 'responsible' ? true : false"
-            >Ответственный</LocalButton>
-            
-          </div>
-          <AddDeviceButton 
-          ref="Date.now()" 
-          @click="showAdd = true"
-          >Добавить устройство</AddDeviceButton>
-      </div>
-    </InfoFeed>
+            @click="showAdd = true"
+            >Добавить устройство</AddDeviceButton>
+        </div>
+      </InfoFeed>
+    </Transition>
     <Popup @closePopup="closeAddDevice" v-if="showAdd"><AddDevice></AddDevice></Popup>
     <Transition name="fade-slide" appear>
       <div class="generic-container">
