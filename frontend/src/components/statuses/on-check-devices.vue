@@ -68,7 +68,7 @@ export default {
       this.popupActive = false
     },
     updateDevices() {
-      this.GET_PLANED_DEVICES().then(() => {})
+      this.GET_ON_CHECK_DEVICES().then(() => {})
     }
   },
   computed: {
